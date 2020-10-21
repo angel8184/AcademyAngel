@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Academy0101Response {
 
+    private String stdntId;
     private String name;
     private String birth;
     private String idCard;
@@ -21,6 +22,14 @@ public class Academy0101Response {
     private String lastPaymentDate;
     private List<Academy0101Response_courseFeeList> courseFeeList;
     private List<Academy0101Response_paymentList> paymentList;
+
+    public String getStdntId() {
+        return stdntId;
+    }
+
+    public void setStdntId(String stdntId) {
+        this.stdntId = stdntId;
+    }
 
     public String getName() {
         return name;

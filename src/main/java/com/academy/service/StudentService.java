@@ -1,6 +1,7 @@
 package com.academy.service;
 
 import com.academy.dao.StudentDao;
+import com.academy.model.Academy0101Request;
 import com.academy.model.Academy0102Request;
 import com.academy.vo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +42,14 @@ public class StudentService {
 
         return stdntId;
     }
+
+    public StudentInfo queryStudentData(Academy0101Request academy0101Request){
+
+        StudentInfo studentInfo = studentInfoDao.findByGradeAndName(Integer.parseInt(academy0101Request.getGrade()), academy0101Request.getName());
+
+        return studentInfo;
+
+    }
+
+
 }

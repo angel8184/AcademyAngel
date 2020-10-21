@@ -30,7 +30,13 @@ public class SignUpRecordService {
 
             signUpRecordDao.save(stdntSignUpRecord);
         }
+    }
 
+    public List<StdntSignUpRecord> queryStdntSignUpRecord(int stdntId){
+
+        List<StdntSignUpRecord> stdntSignUpRecord = signUpRecordDao.findByRefStdntId(stdntId);
+
+        return stdntSignUpRecord;
 
     }
 }
