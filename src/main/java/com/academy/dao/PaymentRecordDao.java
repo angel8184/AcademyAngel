@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface PaymentRecordDao extends CrudRepository<StdntPaymentRecord, Integer> {
 
-    public List<StdntPaymentRecord> findByRefStdntId(int stdntId);
+    public List<StdntPaymentRecord> findByRefPaymentMainId(int paymentMainId);
+
 }

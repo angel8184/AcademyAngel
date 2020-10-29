@@ -10,6 +10,8 @@ public class StdntSignUpRecord {
     private int id;
     private int refStdntId;
     private int refCourseFeeId;
+    private int signUpStartMonth;
+    private int signUpEndMonth;
     private Timestamp createDate;
 
     @Id
@@ -30,6 +32,26 @@ public class StdntSignUpRecord {
     public int getRefCourseFeeId() { return refCourseFeeId; }
 
     public void setRefCourseFeeId(int refCourseFeeId) { this.refCourseFeeId = refCourseFeeId; }
+
+    @Basic
+    @Column(name = "SIGN_UP_START_MONTH", nullable = false)
+    public int getSignUpStartMonth() {
+        return signUpStartMonth;
+    }
+
+    public void setSignUpStartMonth(int signUpStartMonth) {
+        this.signUpStartMonth = signUpStartMonth;
+    }
+
+    @Basic
+    @Column(name = "SIGN_UP_END_MONTH", nullable = false)
+    public int getSignUpEndMonth() {
+        return signUpEndMonth;
+    }
+
+    public void setSignUpEndMonth(int signUpEndMonth) {
+        this.signUpEndMonth = signUpEndMonth;
+    }
 
     @Basic
     @Column(name = "CREATE_DATE", nullable = false)

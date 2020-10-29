@@ -2,9 +2,40 @@ package com.academy.model;
 
 public class Academy0102Request_course {
 
-    private int courseId;
+    private String signUpId;
+    private String courseFeeId;
+    private String signUpStartMonth;
+    private String signUpEndMonth;
 
-    public int getCourseId() { return courseId; }
+    public String getSignUpId() {
+        return signUpId;
+    }
 
-    public void setCourseId(int courseId) { this.courseId = courseId; }
+    public void setSignUpId(String signUpId) {
+        this.signUpId = signUpId;
+    }
+
+    public String getCourseFeeId() {
+        return courseFeeId;
+    }
+
+    public void setCourseFeeId(String courseFeeId) {
+        this.courseFeeId = courseFeeId;
+    }
+
+    public String getSignUpStartMonth() {
+        return signUpStartMonth;
+    }
+
+    public void setSignUpStartMonth(String signUpStartMonth) {
+        this.signUpStartMonth = signUpStartMonth;
+    }
+
+    public String getSignUpEndMonth() {
+        return signUpEndMonth;
+    }
+
+    public void setSignUpEndMonth(String signUpEndMonth) {
+        this.signUpEndMonth = signUpEndMonth;
+    }
 }

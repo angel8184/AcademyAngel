@@ -12,7 +12,7 @@ public class StudentInfo {
     private Timestamp birth;
     private String idCard;
     private String parentName;
-    private int phone;
+    private String phone;
     private boolean newNote;
     private boolean leaveNote;
     private Timestamp newDate;
@@ -56,10 +56,10 @@ public class StudentInfo {
     public void setParentName(String parentName) { this.parentName = parentName; }
 
     @Basic
-    @Column(name = "PHONE", nullable = false)
-    public int getPhone() { return phone; }
+    @Column(name = "PHONE", nullable = false, length = 20)
+    public String getPhone() { return phone; }
 
-    public void setPhone(int phone) { this.phone = phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
     @Basic
     @Column(name = "NEW_NOTE", nullable = true)

@@ -10,19 +10,19 @@ public class Academy0102Request {
     private Timestamp birth;
     private String idCard;
     private String parentName;
-    private int phone;
+    private String phone;
     private boolean newNote;
     private boolean leaveNote;
     private Timestamp newDate;
     private Timestamp leaveDate;
-    private int grade;
+    private String grade;
     private boolean handoutExemption;
     private boolean engDiscount;
     private boolean mathDiscount;
     private String remark;
     private boolean isUpdate;
 
-    private List<Academy0102Request_course> courseList;
+    private List<Academy0102Request_course> courseFeeList;
 
     public Integer getStdntId() {
         return stdntId;
@@ -64,11 +64,11 @@ public class Academy0102Request {
         this.parentName = parentName;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -104,11 +104,11 @@ public class Academy0102Request {
         this.leaveDate = leaveDate;
     }
 
-    public int getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(String grade) {
         this.grade = grade;
     }
 
@@ -152,11 +152,11 @@ public class Academy0102Request {
         isUpdate = update;
     }
 
-    public List<Academy0102Request_course> getCourseList() {
-        return courseList;
+    public List<Academy0102Request_course> getCourseFeeList() {
+        return courseFeeList;
     }
 
-    public void setCourseList(List<Academy0102Request_course> courseList) {
-        this.courseList = courseList;
+    public void setCourseFeeList(List<Academy0102Request_course> courseFeeList) {
+        this.courseFeeList = courseFeeList;
     }
 }

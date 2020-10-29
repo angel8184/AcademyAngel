@@ -10,7 +10,7 @@ public class StdntPaymentRecord {
 
     private int id;
     private int refPaymentMainId;
-    private int refSignupId;
+    private int refCourseFeeId;
     private int expense;
     private String remark;
     private int expenseMonthStart;
@@ -31,10 +31,10 @@ public class StdntPaymentRecord {
     public void setRefPaymentMainId(int refPaymentMainId) { this.refPaymentMainId = refPaymentMainId; }
 
     @Basic
-    @Column(name = "REF_SIGNUP_ID", nullable = false)
-    public int getRefSignupId() { return refSignupId; }
+    @Column(name = "REF_COURSE_FEE_ID", nullable = false)
+    public int getRefCourseFeeId() { return refCourseFeeId; }
 
-    public void setRefSignupId(int refSignupId) { this.refSignupId = refSignupId; }
+    public void setRefCourseFeeId(int refCourseFeeId) { this.refCourseFeeId = refCourseFeeId; }
 
     @Basic
     @Column(name = "EXPENSE", nullable = false)

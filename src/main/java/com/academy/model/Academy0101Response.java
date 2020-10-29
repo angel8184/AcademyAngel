@@ -21,7 +21,6 @@ public class Academy0101Response {
     private String remark;
     private String lastPaymentDate;
     private List<Academy0101Response_courseFeeList> courseFeeList;
-    private List<Academy0101Response_paymentList> paymentList;
 
     public String getStdntId() {
         return stdntId;
@@ -157,14 +156,6 @@ public class Academy0101Response {
 
     public void setCourseFeeList(List<Academy0101Response_courseFeeList> courseFeeList) {
         this.courseFeeList = courseFeeList;
-    }
-
-    public List<Academy0101Response_paymentList> getPaymentList() {
-        return paymentList;
-    }
-
-    public void setPaymentList(List<Academy0101Response_paymentList> paymentList) {
-        this.paymentList = paymentList;
     }
 
     public Academy0101Response() {

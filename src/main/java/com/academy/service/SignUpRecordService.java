@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Service
-@Transactional
+@Transactional()
 public class SignUpRecordService {
 
     @Autowired
@@ -24,8 +24,14 @@ public class SignUpRecordService {
 
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
+            if(course.getSignUpId() != null){
+                stdntSignUpRecord.setId(Integer.parseInt(course.getSignUpId()));
+            }
+
             stdntSignUpRecord.setRefStdntId(stdntId);
-            stdntSignUpRecord.setRefCourseFeeId(course.getCourseId());
+            stdntSignUpRecord.setRefCourseFeeId(Integer.parseInt(course.getCourseFeeId()));
+            stdntSignUpRecord.setSignUpStartMonth(Integer.parseInt(course.getSignUpStartMonth()));
+            stdntSignUpRecord.setSignUpEndMonth(Integer.parseInt(course.getSignUpEndMonth()));
             stdntSignUpRecord.setCreateDate(timestamp);
 
             signUpRecordDao.save(stdntSignUpRecord);

@@ -1,9 +1,10 @@
 package com.academy.controller;
 
-import com.academy.model.Academy0201Response;
-import com.academy.model.Academy0202Request;
+import com.academy.model.*;
 import com.academy.service.CourseFeeService;
+import com.academy.service.SignUpRecordService;
 import com.academy.vo.CourseFeeInfo;
+import com.academy.vo.StdntSignUpRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +21,11 @@ public class Academy02Controller {
     @Autowired
     CourseFeeService courseFeeService;
 
+    @Autowired
+    SignUpRecordService signUpRecordService;
+
     @PostMapping("/01")
-    public List<Academy0201Response> queryStudentData(){
+    public List<Academy0201Response> queryCourseFee(){
         List<Academy0201Response> academy0201ResponseList = new ArrayList<>();
 
         List<CourseFeeInfo> courseFeeInfoList = courseFeeService.queryAllCourseFee();
@@ -46,6 +50,26 @@ public class Academy02Controller {
         }else if("D".equals(academy0202Request.getInsertOrDelete())){
             courseFeeService.deleteCourseFee(Integer.parseInt(academy0202Request.getCourseFeeId()));
         }
+
         return "success";
+    }
+
+    @PostMapping("/03")
+    public List<Academy0203Response> queryStdntSighUpCourseFeeList(@RequestBody Academy0203Request academy0203Request){
+
+        List<Academy0203Response> academy0203ResponseList = new ArrayList<>();
+
+        List<StdntSignUpRecord> stdntSignUpRecordList = signUpRecordService.queryStdntSignUpRecord(
+                Integer.parseInt(academy0203Request.getStdntId()));
+
+        for(StdntSignUpRecord stdntSignUpRecord : stdntSignUpRecordList){
+            Academy0203Response academy0203Response = new Academy0203Response();
+
+            academy0203Response.setCourseFeeId(String.valueOf(stdntSignUpRecord.getRefCourseFeeId()));
+
+            academy0203ResponseList.add(academy0203Response);
+        }
+
+        return academy0203ResponseList;
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.academy.dao", "com.academy.service", "com.academy.vo"})
+//@ComponentScan(basePackages = {"com.academy.dao", "com.academy.service", "com.academy.vo"})
 public class AngelApplication {
 
 	public static void main(String[] args) {
