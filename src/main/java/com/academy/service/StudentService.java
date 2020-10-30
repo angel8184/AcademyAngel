@@ -112,4 +112,17 @@ public class StudentService {
     public String getGradeName(int grade){
         return gradeMap.get(grade);
     }
+
+    public void updateAllStudentGrade(List<StudentInfo> studentInfoList){
+
+        for(StudentInfo studentInfo : studentInfoList){
+
+            if(studentInfo.getGrade() < 9){
+                studentInfo.setGrade(studentInfo.getGrade() + 1);
+
+                studentInfoDao.save(studentInfo);
+            }
+
+        }
+    }
 }

@@ -82,6 +82,24 @@ public class Academy01Controller {
         return "success";
     }
 
+    @PostMapping("/03")
+    public String insertStudentData(){
+
+        String grade = "";
+        String name = "";
+
+        try{
+            //撈學生資料
+            List<StudentInfo> studentInfoList = studentService.queryStudentData(grade, name);
+
+            studentService.updateAllStudentGrade(studentInfoList);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "success";
+    }
+
     private List<Academy0101Response_courseFeeList> getCourseFeeList(List<StdntSignUpRecord> stdntSignUpRecordList){
 
         List<Academy0101Response_courseFeeList> courseFeeLists = new ArrayList<>();
