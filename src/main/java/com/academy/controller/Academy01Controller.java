@@ -49,7 +49,7 @@ public class Academy01Controller {
             academy0101Response.setBirth(studentInfo.getBirth().toString());
             academy0101Response.setIdCard(studentInfo.getIdCard());
             academy0101Response.setParentName(studentInfo.getParentName());
-            academy0101Response.setPhone(String.valueOf(studentInfo.getPhone()));
+            academy0101Response.setPhone(studentInfo.getPhone());
             academy0101Response.setNewNote(String.valueOf(studentInfo.isNewNote()));
             academy0101Response.setLeaveNote(String.valueOf(studentInfo.isLeaveNote()));
             academy0101Response.setNewDate(studentInfo.getNewDate() == null ? "" : studentInfo.getNewDate().toString());
@@ -110,6 +110,8 @@ public class Academy01Controller {
                 Academy0101Response_courseFeeList courseFee = new Academy0101Response_courseFeeList();
                 courseFee.setSignUpId(String.valueOf(stdntSignUpRecord.getId()));
                 courseFee.setCourseFeeId(String.valueOf(stdntSignUpRecord.getRefCourseFeeId()));
+                courseFee.setSignUpStartMonth(String.valueOf(stdntSignUpRecord.getSignUpStartMonth()));
+                courseFee.setSignUpEndMonth(String.valueOf(stdntSignUpRecord.getSignUpEndMonth()));
 
                 courseFeeLists.add(courseFee);
             }
