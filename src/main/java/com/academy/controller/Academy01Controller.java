@@ -7,16 +7,14 @@ import com.academy.vo.StdntPaymentRecord;
 import com.academy.vo.StdntSignUpRecord;
 import com.academy.vo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/academy01")
 public class Academy01Controller {
 
@@ -50,14 +48,14 @@ public class Academy01Controller {
             academy0101Response.setIdCard(studentInfo.getIdCard());
             academy0101Response.setParentName(studentInfo.getParentName());
             academy0101Response.setPhone(studentInfo.getPhone());
-            academy0101Response.setNewNote(String.valueOf(studentInfo.isNewNote()));
-            academy0101Response.setLeaveNote(String.valueOf(studentInfo.isLeaveNote()));
+            academy0101Response.setNewNote(studentInfo.isNewNote() == true ? "1" : "0");
+            academy0101Response.setLeaveNote(studentInfo.isLeaveNote() ==  true ? "1" : "0");
             academy0101Response.setNewDate(studentInfo.getNewDate() == null ? "" : studentInfo.getNewDate().toString());
             academy0101Response.setLeaveDate(studentInfo.getLeaveDate() == null ? "" : studentInfo.getLeaveDate().toString());
             academy0101Response.setGrade(String.valueOf(studentInfo.getGrade()));
-            academy0101Response.setHandoutExemption(String.valueOf(studentInfo.isHandoutExemption()));
-            academy0101Response.setEngDiscount(String.valueOf(studentInfo.isEngDiscount()));
-            academy0101Response.setMathDiscount(String.valueOf(studentInfo.isMathDiscount()));
+            academy0101Response.setHandoutExemption(studentInfo.isHandoutExemption() == true ? "1" : "0");
+            academy0101Response.setEngDiscount(studentInfo.isEngDiscount() == true ? "1" : "0");
+            academy0101Response.setMathDiscount(studentInfo.isMathDiscount() == true ? "1" : "0");
             academy0101Response.setRemark(studentInfo.getRemark());
             academy0101Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" : studentInfo.getLastPaymentDate().toString());
             academy0101Response.setCourseFeeList(getCourseFeeList(stdntSignUpRecordList));

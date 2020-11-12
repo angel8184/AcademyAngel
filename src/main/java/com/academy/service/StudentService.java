@@ -1,8 +1,7 @@
 package com.academy.service;
 
 import com.academy.dao.StudentDao;
-import com.academy.model.Academy0101Request;
-import com.academy.model.Academy0102Request;
+import com.academy.model.*;
 import com.academy.vo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,6 +108,27 @@ public class StudentService {
         return studentInfo;
     }
 
+    public List<Academy0306Response> queryPaymentForPrintReceipt (Academy0306Request academy0306Request){
+
+        List<StudentInfo> studentInfoList = queryStudentData(academy0306Request.getGrade(), academy0306Request.getName());
+        List<Academy0306Response> academy0306ResponseList = new ArrayList<>();
+
+        if(!studentInfoList.isEmpty()){
+            for(StudentInfo studentInfo : studentInfoList){
+                Academy0306Response academy0306Response = new Academy0306Response();
+
+                academy0306Response.setStdntId(String.valueOf(studentInfo.getStdntId()));
+                academy0306Response.setName(studentInfo.getName());
+                academy0306Response.setGrade(getGradeName(studentInfo.getGrade()));
+                academy0306Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" :
+                        studentInfo.getLastPaymentDate().toString().substring(0, 10));
+
+                academy0306ResponseList.add(academy0306Response);
+            }
+        }
+        return academy0306ResponseList;
+    }
+
     public String getGradeName(int grade){
         return gradeMap.get(grade);
     }
@@ -124,5 +144,35 @@ public class StudentService {
             }
 
         }
+    }
+
+    public List<Academy0601Response> fetchStudentInfoToResponse(List<StudentInfo> studentInfoList){
+
+        List<Academy0601Response> academy0601ResponseList = new ArrayList<>();
+
+        for(StudentInfo studentInfo : studentInfoList){
+
+            Academy0601Response academy0601Response = new Academy0601Response();
+
+            academy0601Response.setName(studentInfo.getName());
+            academy0601Response.setBirth(studentInfo.getBirth().toString().substring(0,10));
+            academy0601Response.setIdCard(studentInfo.getIdCard());
+            academy0601Response.setGrade(gradeMap.get(studentInfo.getGrade()));
+            academy0601Response.setParentName(studentInfo.getParentName());
+            academy0601Response.setPhone(studentInfo.getPhone());
+            academy0601Response.setNewNote(studentInfo.isNewNote() == true ? "Y" : "");
+            academy0601Response.setLeaveNote(studentInfo.isLeaveNote() == true ? "Y" : "");
+            academy0601Response.setNewDate(studentInfo.getNewDate() == null ? "" : studentInfo.getNewDate().toString().substring(0,10));
+            academy0601Response.setLeaveDate(studentInfo.getLeaveDate() == null ? "" : studentInfo.getLeaveDate().toString().substring(0,10));
+            academy0601Response.setHandoutExemption(studentInfo.isHandoutExemption() == true ? "Y" : "");
+            academy0601Response.setEngDiscount(studentInfo.isEngDiscount() == true ? "Y" : "");
+            academy0601Response.setMathDiscount(studentInfo.isMathDiscount() == true ? "Y" : "");
+            academy0601Response.setRemark(studentInfo.getRemark());
+            academy0601Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" : studentInfo.getLastPaymentDate().toString().substring(0,10));
+
+            academy0601ResponseList.add(academy0601Response);
+
+        }
+        return academy0601ResponseList;
     }
 }

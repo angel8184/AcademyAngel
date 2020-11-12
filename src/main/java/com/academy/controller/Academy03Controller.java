@@ -8,15 +8,13 @@ import com.academy.vo.StdntPaymentRecord;
 import com.academy.vo.StdntPaymentRecordMain;
 import com.academy.vo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/academy03")
 public class Academy03Controller {
 
@@ -116,6 +114,14 @@ public class Academy03Controller {
         studentService.updateLastPayDate(studentInfo);
 
         return "success";
+    }
+
+    @PostMapping("/06")
+    public List<Academy0306Response> queryPaymentForPrintReceipt(@RequestBody Academy0306Request academy0306Request){
+
+        List<Academy0306Response> academy0306ResponseList = studentService.queryPaymentForPrintReceipt(academy0306Request);
+
+        return academy0306ResponseList;
     }
 
     private List<Academy0301Response_courseFeeList> getPaymentCourseList(List<StdntPaymentRecord> stdntPaymentRecordList){
