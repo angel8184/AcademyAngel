@@ -17,7 +17,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/academy06")
 public class Academy06Controller {
 
