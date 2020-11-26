@@ -5,6 +5,7 @@ import java.util.List;
 public class Academy0305Request {
 
     private String payMainId;
+    private String receivingUnit;
 
 
     public String getPayMainId() {
@@ -15,4 +16,7 @@ public class Academy0305Request {
         this.payMainId = payMainId;
     }
 
+    public String getReceivingUnit() { return receivingUnit; }
+
+    public void setReceivingUnit(String receivingUnit) { this.receivingUnit = receivingUnit; }
 }

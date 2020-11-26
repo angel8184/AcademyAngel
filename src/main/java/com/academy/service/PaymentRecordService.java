@@ -81,11 +81,12 @@ public class PaymentRecordService {
         return mainId;
     }
 
-    public void updatePayDate(StdntPaymentRecordMain stdntPaymentRecordMain){
+    public void updatePayDateAndReceivingUnit(StdntPaymentRecordMain stdntPaymentRecordMain, String receivingUnit){
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         stdntPaymentRecordMain.setPayDate(timestamp);
+        stdntPaymentRecordMain.setReceivingUnit(receivingUnit);
 
         paymentRecordMainDao.save(stdntPaymentRecordMain);
 

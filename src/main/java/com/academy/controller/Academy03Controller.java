@@ -49,6 +49,7 @@ public class Academy03Controller {
         academy0301Response.setCourseFeeList(getPaymentCourseList(stdntPaymentRecordList));
         academy0301Response.setPaymentCrDate(stdntPaymentRecordMain.getCreateDate().toString());
         academy0301Response.setPayDate(stdntPaymentRecordMain.getPayDate() == null ? "" : stdntPaymentRecordMain.getPayDate().toString());
+        academy0301Response.setReceivingUnit(stdntPaymentRecordMain.getReceivingUnit());
 
         return academy0301Response;
     }
@@ -107,7 +108,7 @@ public class Academy03Controller {
 
         StdntPaymentRecordMain stdntPaymentRecordMain = paymentRecordService.queryPaymentRecordMainById(Integer.parseInt(academy0305Request.getPayMainId()));
 
-        paymentRecordService.updatePayDate(stdntPaymentRecordMain);
+        paymentRecordService.updatePayDateAndReceivingUnit(stdntPaymentRecordMain, academy0305Request.getReceivingUnit());
 
         StudentInfo studentInfo = studentService.findbyStdntIdAndGrade(stdntPaymentRecordMain.getRefStdntId(), stdntPaymentRecordMain.getGrade());
 

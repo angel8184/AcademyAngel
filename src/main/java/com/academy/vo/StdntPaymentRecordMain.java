@@ -13,6 +13,7 @@ public class StdntPaymentRecordMain {
     private int grade;
     private int paymentMonth;
     private Timestamp createDate;
+    private String receivingUnit;
     private Timestamp payDate;
 
     @Id
@@ -45,6 +46,12 @@ public class StdntPaymentRecordMain {
     public Timestamp getCreateDate() { return createDate; }
 
     public void setCreateDate(Timestamp createDate) { this.createDate = createDate; }
+
+    @Basic
+    @Column(name = "RECEIVING_UNIT", nullable = true)
+    public String getReceivingUnit() { return receivingUnit; }
+
+    public void setReceivingUnit(String receivingUnit) { this.receivingUnit = receivingUnit; }
 
     @Basic
     @Column(name = "PAY_DATE", nullable = true)

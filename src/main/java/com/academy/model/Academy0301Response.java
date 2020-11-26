@@ -12,6 +12,7 @@ public class Academy0301Response {
     private List<Academy0301Response_courseFeeList> courseFeeList;
     private String paymentCrDate;
     private String payDate;
+    private String receivingUnit;
 
     public String getStdntId() {
         return stdntId;
@@ -76,4 +77,8 @@ public class Academy0301Response {
     public void setPayDate(String payDate) {
         this.payDate = payDate;
     }
+
+    public String getReceivingUnit() { return receivingUnit; }
+
+    public void setReceivingUnit(String receivingUnit) { this.receivingUnit = receivingUnit; }
 }
