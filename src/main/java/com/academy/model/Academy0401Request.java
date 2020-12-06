@@ -4,13 +4,13 @@ import java.util.List;
 
 public class Academy0401Request {
 
-    private List<Academy0401Request_studentIdList> studentIdList;
+    private String studentIdList;
 
-    public List<Academy0401Request_studentIdList> getStudentIdList() {
+    public String getStudentIdList() {
         return studentIdList;
     }
 
-    public void setStudentIdList(List<Academy0401Request_studentIdList> studentIdList) {
+    public void setStudentIdList(String studentIdList) {
         this.studentIdList = studentIdList;
     }
 }

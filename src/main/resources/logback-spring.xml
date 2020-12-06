@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration  scan="true" scanPeriod="10 seconds" debug="false">
+    <contextName>logback</contextName>
+    <property name="log.path" value="/Users/angel/Documents/otherProject/angel/src/main/resources/logFile/logback.log" />
+    <!--輸出到控制檯-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+             <level>ERROR</level>
+         </filter>-->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--輸出到檔案-->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logback.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="console" />
+    </root>
+
+    <!-- logback為java中的包 -->
+    <logger name="com.academy.controller"/>
+    <!--logback.LogbackDemo：類的全路徑 -->
+    <logger name="com.academy.controller" level="DEBUG" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file" />
+    </logger>
+</configuration>

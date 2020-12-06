@@ -94,6 +94,13 @@ public class StudentService {
         return studentInfoList;
     }
 
+    public StudentInfo findbyStdntId(int stdntId){
+
+        StudentInfo studentInfo = studentInfoDao.findByStdntId(stdntId);
+
+        return studentInfo;
+    }
+
     public StudentInfo findbyName(String name){
 
         StudentInfo studentInfo = studentInfoDao.findByName(name).get(0);

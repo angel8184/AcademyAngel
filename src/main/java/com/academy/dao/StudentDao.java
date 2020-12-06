@@ -13,6 +13,8 @@ public interface StudentDao extends CrudRepository<StudentInfo, Integer> {
 
     public StudentInfo findByStdntIdAndGrade(int stdntId, int grade);
 
+    public StudentInfo findByStdntId(int stdntId);
+
     public List<StudentInfo> findByGrade(int grade);
 
     public List<StudentInfo> findByName(String name);

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fontFamilies>
+    <fontFamily name="kaiu"><!--字體名稱-->
+        <normal>jaspertemplate/fonts/kaiu.ttf</normal><!--字體文件的路徑-->
+        <bold>jaspertemplate/fonts/kaiu.ttf</bold>
+        <italic>jaspertemplate/fonts/kaiu.ttf</italic>
+        <boldItalic>jaspertemplate/fonts/kaiu.ttf</boldItalic>
+        <pdfEncoding>Identity-H</pdfEncoding><!--這裏的定義就與上面1.1的圖設置相匹配了-->
+        <pdfEmbedded>true</pdfEmbedded>
+        <exportFonts>
+            <export key="net.sf.jasperreports.html">'kaiu', Arial, Helvetica, sans-serif</export>
+            <export key="net.sf.jasperreports.xhtml">'kaiu', Arial, Helvetica, sans-serif</export>
+        </exportFonts>
+    </fontFamily>
+</fontFamilies>

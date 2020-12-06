@@ -6,6 +6,8 @@ import com.academy.service.StudentService;
 import com.academy.vo.StudentInfo;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,11 +23,15 @@ import java.util.List;
 @RequestMapping("/academy06")
 public class Academy06Controller {
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     StudentService studentService;
 
     @PostMapping("/01")
     public void exportStudentInfoExcel(@RequestBody Academy0601Request academy0601Request, HttpServletResponse response) {
+
+        logger.debug("exportStudentInfoExcel_Grade:{}", academy0601Request.getGrade());
 
         List<StudentInfo> studentInfoList = studentService.queryStudentData(academy0601Request.getGrade(), "");
 
@@ -45,7 +51,7 @@ public class Academy06Controller {
             os.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.debug("exportStudentInfoExcel Error", e);
         }
     }
 }

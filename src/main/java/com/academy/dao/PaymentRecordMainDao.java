@@ -15,6 +15,8 @@ public interface PaymentRecordMainDao extends CrudRepository<StdntPaymentRecordM
 
     public StdntPaymentRecordMain findByRefStdntIdAndPaymentMonth(int stdntId, int month);
 
+    public StdntPaymentRecordMain findByRefStdntIdAndGradeAndPaymentMonth(int stdntId, int grade, int month);
+
     public StdntPaymentRecordMain findById(int mainId);
 
     public List<StdntPaymentRecordMain> findByRefStdntIdAndGradeOrderByPaymentMonthDesc(int stdntId, int grade);

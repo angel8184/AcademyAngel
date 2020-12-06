@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="receipt" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7fd44687-c5b2-4941-84f0-2de8b8beac38">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="892"/>
+	<property name="ireport.y" value="107"/>
+	<subDataset name="Table Dataset 1" uuid="f374a26c-5115-4880-b42a-ec7bb25bd47c"/>
+	<subDataset name="Table Dataset 2" uuid="e811eb29-6366-4ef8-a1b3-3f0bd2170853">
+		<queryString language="SQL">
+			<![CDATA[]]>
+		</queryString>
+		<field name="courseFee" class="java.lang.String"/>
+		<field name="expense" class="java.lang.Integer"/>
+		<field name="remark" class="java.lang.String"/>
+		<variable name="totalExpense" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{expense}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/Users/angel/Documents/otherProject/angel/src/main/resources/templates/"]]></defaultValueExpression>
+	</parameter>
+	<field name="year" class="java.lang.String"/>
+	<field name="month" class="java.lang.String"/>
+	<field name="studentName" class="java.lang.String"/>
+	<field name="signUpCourseFee" class="java.lang.String"/>
+	<field name="courseFeeDetailList" class="java.util.List"/>
+	<group name="ReciptHeader">
+		<groupExpression><![CDATA[$F{year}+$F{month}+$F{studentName}+$F{signUpCourseFee}]]></groupExpression>
+		<groupHeader>
+			<band height="96">
+				<staticText>
+					<reportElement x="114" y="1" width="127" height="20" uuid="8ec0bfb9-dd0c-48e4-91db-e50911913a7f"/>
+					<textElement>
+						<font fontName="標楷體" size="14"/>
+					</textElement>
+					<text><![CDATA[安蕎文理短期補習班]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="126" y="24" width="13" height="20" uuid="8ac77ea6-ef56-46f8-b337-9ac58ed5a42f"/>
+					<textElement>
+						<font fontName="標楷體" size="14"/>
+					</textElement>
+					<text><![CDATA[年]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="164" y="24" width="13" height="20" uuid="fa715f72-437d-4642-acb9-5bfff85edddd"/>
+					<textElement>
+						<font fontName="標楷體" size="14"/>
+					</textElement>
+					<text><![CDATA[月]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="196" y="24" width="85" height="20" uuid="d4c64e61-74c9-463e-ba28-e2ac4ef79f24"/>
+					<textElement>
+						<font fontName="標楷體" size="14"/>
+					</textElement>
+					<text><![CDATA[繳 費 收 據]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="299" y="4" width="57" height="20" uuid="ba89804a-3592-413f-a7f1-f2b1ffe4aeb2"/>
+					<textElement>
+						<font fontName="標楷體" size="10"/>
+					</textElement>
+					<text><![CDATA[學校存根聯]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="12" y="44" width="57" height="15" uuid="afc33ca1-906a-4f2a-9268-218949c52fef"/>
+					<textElement>
+						<font fontName="標楷體" size="10"/>
+					</textElement>
+					<text><![CDATA[學生姓名：]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="12" y="60" width="68" height="15" uuid="260e572b-88a8-4a00-949b-f57140be0797"/>
+					<textElement>
+						<font fontName="標楷體" size="10"/>
+					</textElement>
+					<text><![CDATA[課程及費用：]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="12" y="82" width="114" height="14" uuid="6b954a2a-607e-4425-9c58-b8558ef3bbbd"/>
+					<box topPadding="0" leftPadding="5">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement>
+						<font fontName="標楷體"/>
+					</textElement>
+					<text><![CDATA[項               目]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="126" y="82" width="115" height="14" uuid="e259506d-9b01-44e5-8e58-ceff8925a2ae"/>
+					<box topPadding="0" leftPadding="5">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement>
+						<font fontName="標楷體"/>
+					</textElement>
+					<text><![CDATA[金                額]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="241" y="82" width="115" height="14" uuid="bcc3049a-9e13-4161-8b43-d6a325063197"/>
+					<box topPadding="0" leftPadding="5">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement>
+						<font fontName="標楷體"/>
+					</textElement>
+					<text><![CDATA[備                註]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="560" y="0" width="127" height="20" uuid="6640b996-bafb-42ee-8d6e-a9f15c6a0cd8"/>
+					<textElement>
+						<font fontName="標楷體" size="14"/>
+					</textElement>
+					<text><![CDATA[安蕎文理短期補習班]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="745" y="4" width="57" height="20" uuid="34903fa3-896b-4d8a-9825-943d76fc6b0c"/>
+					<textElement>
+						<font fontName="標楷體" size="10"/>
+					</textElement>
+					<text><![CDATA[家長留存聯]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="571" y="24" width="13" height="20" uuid="e0fddbff-ca82-47aa-b203-2c489a1ef757"/>
+					<textElement>
+						<font fontName="標楷體" size="14"/>
+					</textElement>
+					<text><![CDATA[年]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="610" y="24" width="13" height="20" uuid="b07908a6-e23a-4f41-ae59-bd1003aaf712"/>
+					<textElement>
+						<font fontName="標楷體" size="14"/>
+					</textElement>
+					<text><![CDATA[月]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="643" y="24" width="80" height="20" uuid="5934489e-f483-40e7-a62a-ad7fd5c8d288"/>
+					<textElement>
+						<font fontName="標楷體" size="14"/>
+					</textElement>
+					<text><![CDATA[繳 費 收 據]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="458" y="45" width="57" height="15" uuid="78ec58fe-38ed-4f91-b234-150e021539a8"/>
+					<textElement>
+						<font fontName="標楷體" size="10"/>
+					</textElement>
+					<text><![CDATA[學生姓名：]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="458" y="82" width="114" height="14" uuid="3e3a66d1-4dd1-431b-bcdf-ddf335fbbeeb"/>
+					<box topPadding="0" leftPadding="5">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement>
+						<font fontName="標楷體"/>
+					</textElement>
+					<text><![CDATA[項                目]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="572" y="82" width="115" height="14" uuid="d2fb8f3c-492c-4d03-b323-daf19ee57267"/>
+					<box topPadding="0" leftPadding="5">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement>
+						<font fontName="標楷體"/>
+					</textElement>
+					<text><![CDATA[金                額]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Transparent" x="687" y="82" width="115" height="14" uuid="9085bdcb-2181-4b9e-9960-e0bc3d8c525a"/>
+					<box topPadding="0" leftPadding="5">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement>
+						<font fontName="標楷體"/>
+					</textElement>
+					<text><![CDATA[備                註]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="139" y="24" width="25" height="20" uuid="61746ff2-e5e5-4523-8c6a-eb13284657c7"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="標楷體"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{month}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="69" y="44" width="100" height="15" uuid="e26ce948-6483-4b7d-aba0-6fba01ee5bc7"/>
+					<textElement>
+						<font fontName="標楷體"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{studentName}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="80" y="60" width="276" height="15" uuid="fb005e39-f151-4dca-a88c-7d75755ea842"/>
+					<textElement>
+						<font fontName="標楷體"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{signUpCourseFee}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="108" y="24" width="18" height="20" uuid="36b6c5bc-01e6-4e62-8c4f-00ab78f9001d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="標楷體"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="554" y="24" width="18" height="20" uuid="d940a8d4-4c38-4145-a2cc-980c8cc4ea96"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="標楷體"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="585" y="24" width="25" height="20" uuid="f463c2a9-8344-4497-b6ae-b8b2f74041fa"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="標楷體"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{month}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="515" y="45" width="100" height="15" uuid="e1cbb04b-a927-4525-abb1-4844c064ef56"/>
+					<textElement>
+						<font fontName="標楷體"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{studentName}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="526" y="60" width="276" height="15" uuid="396d7f4e-6dbe-4179-b3e4-3dc47fef6511"/>
+					<textElement>
+						<font fontName="標楷體"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{signUpCourseFee}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="458" y="60" width="68" height="15" uuid="50cdae37-14ec-4c78-8604-61e253136023"/>
+					<textElement>
+						<font fontName="標楷體" size="10"/>
+					</textElement>
+					<text><![CDATA[課程及費用：]]></text>
+				</staticText>
+				<line>
+					<reportElement x="405" y="0" width="1" height="96" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" printWhenGroupChanges="ReciptHeader" uuid="e07a354c-9da7-4eb0-b3b0-648f4ec8752b"/>
+					<graphicElement>
+						<pen lineStyle="Dotted"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="25">
+				<staticText>
+					<reportElement x="192" y="4" width="49" height="13" uuid="55408b38-d17a-423b-89d9-185a4993f1b2"/>
+					<textElement>
+						<font fontName="標楷體"/>
+					</textElement>
+					<text><![CDATA[經 手 人]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="637" y="4" width="50" height="13" uuid="54700bf2-a2fc-4ada-a96d-6d23607b0ccd"/>
+					<textElement>
+						<font fontName="標楷體"/>
+					</textElement>
+					<text><![CDATA[經 手 人]]></text>
+				</staticText>
+				<line>
+					<reportElement isPrintRepeatedValues="false" x="0" y="24" width="802" height="1" isPrintInFirstWholeBand="true" uuid="43809418-993c-4051-996f-fecba2ef9994"/>
+					<graphicElement>
+						<pen lineStyle="Dotted"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement x="405" y="0" width="1" height="25" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" printWhenGroupChanges="ReciptHeader" uuid="2ffe78c2-6f4b-4f95-b4c0-dcbb2863f9df"/>
+					<graphicElement>
+						<pen lineStyle="Dotted"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="14">
+			<componentElement>
+				<reportElement key="table" x="12" y="0" width="60" height="14" uuid="f5c3c1b5-1152-479f-b3f1-c58db064e2dc"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 2" uuid="84ae692c-1cb7-4b59-aad8-d45167d2f9b4">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{courseFeeDetailList})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="114" uuid="ef849508-47a2-4838-a784-570db89a2cb9">
+						<jr:columnFooter height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="114" height="14" uuid="5ab14098-b565-4ea3-8984-ecaf0403027f"/>
+								<box leftPadding="5">
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement>
+									<font fontName="標楷體"/>
+								</textElement>
+								<text><![CDATA[合               計]]></text>
+							</staticText>
+						</jr:columnFooter>
+						<jr:detailCell height="14" rowSpan="1">
+							<textField pattern="" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="114" height="14" uuid="8c52ab25-2a94-406d-b14a-ee350466c785"/>
+								<box leftPadding="5">
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="0.5"/>
+								</box>
+								<textElement>
+									<font fontName="標楷體"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{courseFee}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="115" uuid="a52eaabe-2f3c-49b9-bfd2-69f03598e5cd">
+						<jr:columnFooter height="14" rowSpan="1">
+							<textField pattern="#,##0" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="115" height="14" uuid="721b5b28-f370-450f-8b20-1a16ce9860a4"/>
+								<box rightPadding="2">
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right">
+									<font fontName="標楷體"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalExpense}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
+						<jr:detailCell height="14" rowSpan="1">
+							<textField pattern="#,##0" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="115" height="14" uuid="e6addf86-3d5a-4ca8-88c1-dbb879760a21"/>
+								<box leftPadding="2" rightPadding="2">
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right">
+									<font fontName="標楷體"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{expense}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="115" uuid="eeb21eb2-98a9-44c2-a737-50d04b07fb7b">
+						<jr:columnFooter height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="115" height="14" uuid="01655b1f-6f95-47df-b4d1-eaf931828bf4"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:columnFooter>
+						<jr:detailCell height="14" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="115" height="14" uuid="bed86b45-cea3-4ef8-8f54-0b6344f77e3d"/>
+								<box leftPadding="5">
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement>
+									<font fontName="標楷體"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{remark}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table" x="458" y="0" width="60" height="14" uuid="f99d7076-2670-46bb-b1ed-28b97169ef30"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 2" uuid="93e52733-3ca7-42e9-a372-46c56f793eae">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{courseFeeDetailList})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="114" uuid="5b2dbc18-c041-4a23-971a-f653404ecf5a">
+						<jr:columnFooter height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="114" height="14" uuid="a2f64ec3-8ec2-493e-89eb-fcc5c49b8a63"/>
+								<box leftPadding="5">
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement>
+									<font fontName="標楷體"/>
+								</textElement>
+								<text><![CDATA[合               計]]></text>
+							</staticText>
+						</jr:columnFooter>
+						<jr:detailCell height="14" rowSpan="1">
+							<textField pattern="" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="114" height="14" uuid="fe747a2e-8a97-45c7-87ae-0ac0a2138c44"/>
+								<box leftPadding="5">
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement>
+									<font fontName="標楷體"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{courseFee}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="115" uuid="7742fbd6-c17f-4b08-a1fb-aa67c193da07">
+						<jr:columnFooter height="14" rowSpan="1">
+							<textField pattern="#,##0" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="115" height="14" uuid="0a57ea66-f01b-4377-bad2-b630df6f9dd9"/>
+								<box rightPadding="2">
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right">
+									<font fontName="標楷體"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalExpense}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
+						<jr:detailCell height="14" rowSpan="1">
+							<textField pattern="#,##0" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="115" height="14" uuid="c88b49eb-a9db-4922-8a83-456371ac7c78"/>
+								<box leftPadding="2" rightPadding="2">
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right">
+									<font fontName="標楷體"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{expense}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="115" uuid="95f837b4-6642-47d7-9b2f-babd074a83cf">
+						<jr:columnFooter height="14" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="115" height="14" uuid="ee40d1c8-2463-4930-b6e5-60d1de10e6f2"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:columnFooter>
+						<jr:detailCell height="14" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="115" height="14" uuid="692692db-3c95-4375-90d1-9fba8bf35f9b"/>
+								<box leftPadding="5">
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement>
+									<font fontName="標楷體"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{remark}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<line>
+				<reportElement stretchType="RelativeToTallestObject" x="405" y="0" width="1" height="14" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" printWhenGroupChanges="ReciptHeader" uuid="fbc5eb30-ffd5-4f43-b3ec-1102077d433e"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+</jasperReport>
