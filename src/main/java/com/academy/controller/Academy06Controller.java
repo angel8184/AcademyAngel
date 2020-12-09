@@ -28,8 +28,8 @@ public class Academy06Controller {
     @Autowired
     StudentService studentService;
 
-    @PostMapping("/01")
-    public void exportStudentInfoExcel(@RequestBody Academy0601Request academy0601Request, HttpServletResponse response) {
+    @RequestMapping(value = "/01",  method = { RequestMethod.GET, RequestMethod.POST })
+    public void exportStudentInfoExcel(@RequestBody(required = false) Academy0601Request academy0601Request, HttpServletResponse response) {
 
         logger.debug("exportStudentInfoExcel_Grade:{}", academy0601Request.getGrade());
 

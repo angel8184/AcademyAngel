@@ -29,8 +29,13 @@
 
     <!-- logback為java中的包 -->
     <logger name="com.academy.controller"/>
+    <logger name="com.academy.service"/>
     <!--logback.LogbackDemo：類的全路徑 -->
     <logger name="com.academy.controller" level="DEBUG" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file" />
+    </logger>
+    <logger name="com.academy.service" level="DEBUG" additivity="false">
         <appender-ref ref="console"/>
         <appender-ref ref="file" />
     </logger>

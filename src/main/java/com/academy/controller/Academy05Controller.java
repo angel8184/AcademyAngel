@@ -5,10 +5,13 @@ import com.academy.model.Academy0601Request;
 import com.academy.model.Academy0601Response;
 import com.academy.service.CourseFeeService;
 import com.academy.service.StudentService;
+import com.academy.service.TotalSummaryService;
 import com.academy.vo.CourseFeeInfo;
 import com.academy.vo.StudentInfo;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,35 +29,26 @@ import java.util.List;
 @RequestMapping("/academy05")
 public class Academy05Controller {
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     StudentService studentService;
     @Autowired
     CourseFeeService courseFeeService;
+    @Autowired
+    TotalSummaryService totalSummaryService;
 
-    @GetMapping("/01")
-    public void exportTotalSummaryExcel(HttpServletResponse response) {
+    @RequestMapping(value = "/01", method = { RequestMethod.GET, RequestMethod.POST })
+    public void exportTotalSummaryExcel(@RequestBody(required = false) Academy0501Request academy0501Request,HttpServletResponse response) {
 
+        logger.debug("exportTotalSummaryExcel_Grade:{}，Month:{}", academy0501Request.getGrade(), academy0501Request.getMonth());
+
+        //組出HEADERS
         List<CourseFeeInfo> courseFeeInfoList = courseFeeService.queryAllCourseFee();
-        List<String> courseFeeNameList = new ArrayList<>();
+        List<String> courseFeeNameList = totalSummaryService.getExcelHeader(courseFeeInfoList);
 
-        courseFeeNameList.add("學生姓名");
-        courseFeeNameList.add("年級");
-        courseFeeNameList.add("生日");
-        courseFeeNameList.add("身分證字號");
-        courseFeeNameList.add("家長姓名");
-        courseFeeNameList.add("電話");
-        courseFeeNameList.add("課程明細");
-
-
-        for (CourseFeeInfo courseFeeInfo : courseFeeInfoList){
-            String courseFeeName = courseFeeInfo.getName();
-            courseFeeNameList.add(courseFeeName);
-        }
-
-        courseFeeNameList.add("繳費合計金額");
-        courseFeeNameList.add("收費日期");
-        courseFeeNameList.add("收款單位");
-
+        //組出dataList
+        List<List<Object>> studentPayRecordList = totalSummaryService.getStudentPayRecordList(academy0501Request, courseFeeInfoList);
 
         try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("templates/totalSummary.xlsx")) {
             //設置檔頭資訊 編碼
@@ -65,9 +59,8 @@ public class Academy05Controller {
             OutputStream os = response.getOutputStream();
             Context context = new Context();
             context.putVar("headers", courseFeeNameList); //名稱對應excel的items
-            context.putVar("dataList", "");
+            context.putVar("dataList", studentPayRecordList);
             JxlsHelper.getInstance().setEvaluateFormulas(true).processTemplate(is, os, context);
-//            JxlsHelper.getInstance().processGridTemplateAtCell(is, os, context,"name,jun,feb,mar,apr,depTotal","Sheet1!A1");
             os.flush();
             os.close();
 
