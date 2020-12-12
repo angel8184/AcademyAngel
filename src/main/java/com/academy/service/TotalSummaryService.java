@@ -74,7 +74,7 @@ public class TotalSummaryService {
         return courseFeeNameList;
     }
 
-    public List<List<Object>> getStudentPayRecordList(Academy0501Request academy0501Request, List<CourseFeeInfo> courseFeeInfoList){
+    public List<List<Object>> getStudentPayRecordList(List<StdntPaymentRecordMain> stdntPaymentRecordMainList, List<CourseFeeInfo> courseFeeInfoList){
 
         //兜出每一位學生的資料
         //step1. use grade and paymentMonth to get stdntPaymentRecordMainList(get how many student pay for paymentMonth)
@@ -87,11 +87,6 @@ public class TotalSummaryService {
         List<List<Object>> studentPayRecordList = new ArrayList<>();
 
         DecimalFormat expenseFormat = new DecimalFormat("#,##0");
-
-        //step1. use grade and paymentMonth to get stdntPaymentRecordMainList
-        List<StdntPaymentRecordMain> stdntPaymentRecordMainList = paymentRecordMainDao.findByGradeAndPaymentMonth(
-                Integer.valueOf(academy0501Request.getGrade()), Integer.valueOf(academy0501Request.getMonth()));
-        logger.debug("How many students in this condition:{}", stdntPaymentRecordMainList.size());
 
         //step2. get total courseFeeMap and courseFeeCount
         LinkedHashMap<Integer, String> courseFeeMap = new LinkedHashMap<>();
@@ -150,7 +145,6 @@ public class TotalSummaryService {
             //step5. List<List<Object>> add student List.
             studentPayRecordList.add(studentPayRecord);
         }
-
 
         return studentPayRecordList;
     }

@@ -4,9 +4,11 @@ import com.academy.model.Academy0501Request;
 import com.academy.model.Academy0601Request;
 import com.academy.model.Academy0601Response;
 import com.academy.service.CourseFeeService;
+import com.academy.service.PaymentRecordService;
 import com.academy.service.StudentService;
 import com.academy.service.TotalSummaryService;
 import com.academy.vo.CourseFeeInfo;
+import com.academy.vo.StdntPaymentRecordMain;
 import com.academy.vo.StudentInfo;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
@@ -36,19 +38,34 @@ public class Academy05Controller {
     @Autowired
     CourseFeeService courseFeeService;
     @Autowired
+    PaymentRecordService paymentRecordService;
+    @Autowired
     TotalSummaryService totalSummaryService;
 
-    @RequestMapping(value = "/01", method = { RequestMethod.GET, RequestMethod.POST })
-    public void exportTotalSummaryExcel(@RequestBody(required = false) Academy0501Request academy0501Request,HttpServletResponse response) {
+    @RequestMapping(value = "/01/{grade}/{month}/{times}", method = { RequestMethod.GET, RequestMethod.POST })
+    public String exportTotalSummaryExcel(@PathVariable(name = "grade") Integer grade,
+                                        @PathVariable(name = "month") Integer month,
+                                        @PathVariable(name = "times") String times,  HttpServletResponse response) {
 
-        logger.debug("exportTotalSummaryExcel_Grade:{}，Month:{}", academy0501Request.getGrade(), academy0501Request.getMonth());
+        logger.debug("exportTotalSummaryExcel_Grade:{}，Month:{}", grade, month);
 
         //組出HEADERS
         List<CourseFeeInfo> courseFeeInfoList = courseFeeService.queryAllCourseFee();
         List<String> courseFeeNameList = totalSummaryService.getExcelHeader(courseFeeInfoList);
 
+        List<StdntPaymentRecordMain> stdntPaymentRecordMainList = paymentRecordService.queryPaymentRecordMainByGradeAndMonth(grade, month);
+        logger.debug("How many students in this condition:{}", stdntPaymentRecordMainList.size());
+
+        if( stdntPaymentRecordMainList.isEmpty()){
+            return "M9999";
+        }else{
+            if("1".equals(times)){
+                return "success";
+            }
+        }
+
         //組出dataList
-        List<List<Object>> studentPayRecordList = totalSummaryService.getStudentPayRecordList(academy0501Request, courseFeeInfoList);
+        List<List<Object>> studentPayRecordList = totalSummaryService.getStudentPayRecordList(stdntPaymentRecordMainList, courseFeeInfoList);
 
         try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("templates/totalSummary.xlsx")) {
             //設置檔頭資訊 編碼
@@ -64,8 +81,11 @@ public class Academy05Controller {
             os.flush();
             os.close();
 
+            return "download success";
+
         } catch (IOException e) {
             e.printStackTrace();
+            return "M9999";
         }
     }
 }

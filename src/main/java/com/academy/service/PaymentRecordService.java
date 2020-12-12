@@ -58,9 +58,9 @@ public class PaymentRecordService {
         return stdntPaymentRecordMain;
     }
 
-    public List<StdntPaymentRecordMain> queryPaymentRecordMainByGrade(int grade){
+    public List<StdntPaymentRecordMain> queryPaymentRecordMainByGradeAndMonth(int grade, int month){
 
-        List<StdntPaymentRecordMain> stdntPaymentRecordMainList = paymentRecordMainDao.findByGrade(grade);
+        List<StdntPaymentRecordMain> stdntPaymentRecordMainList = paymentRecordMainDao.findByGradeAndPaymentMonth(grade, month);
 
         return stdntPaymentRecordMainList;
     }

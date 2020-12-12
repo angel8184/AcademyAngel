@@ -28,12 +28,21 @@ public class Academy06Controller {
     @Autowired
     StudentService studentService;
 
-    @RequestMapping(value = "/01",  method = { RequestMethod.GET, RequestMethod.POST })
-    public void exportStudentInfoExcel(@RequestBody(required = false) Academy0601Request academy0601Request, HttpServletResponse response) {
+    @RequestMapping(value = "/01/{grade}/{times}",  method = { RequestMethod.GET })
+    public String exportStudentInfoExcel(@PathVariable(name = "grade") Integer grade,
+                                         @PathVariable(name = "times") String times, HttpServletResponse response) {
 
-        logger.debug("exportStudentInfoExcel_Grade:{}", academy0601Request.getGrade());
+        logger.debug("exportStudentInfoExcel_Grade:{}", grade);
 
-        List<StudentInfo> studentInfoList = studentService.queryStudentData(academy0601Request.getGrade(), "");
+        List<StudentInfo> studentInfoList = studentService.queryStudentData(grade.toString(), "");
+
+        if( studentInfoList.isEmpty()){
+            return "M9999";
+        }else{
+            if("1".equals(times)){
+                return "success";
+            }
+        }
 
         List<Academy0601Response> academy0601ResponseList = studentService.fetchStudentInfoToResponse(studentInfoList);
 
@@ -50,8 +59,11 @@ public class Academy06Controller {
             os.flush();
             os.close();
 
+            return "download success";
+
         } catch (IOException e) {
             logger.debug("exportStudentInfoExcel Error", e);
+            return "M9999";
         }
     }
 }
