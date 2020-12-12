@@ -13,6 +13,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,9 @@ import java.util.*;
 public class Academy04Controller {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private @Value("${location.reciptFile}")
+    String reciptLocation;
 
     @Autowired
     StudentService studentService;
@@ -99,7 +103,7 @@ public class Academy04Controller {
 
             String fileName = "recipt_month_" + paymentMonth + ".pdf";
 
-            JasperExportManager.exportReportToPdfFile(jasperPrint, "/Users/angel/Documents/otherProject/angel/src/main/resources/templates/"+fileName);
+            JasperExportManager.exportReportToPdfFile(jasperPrint, reciptLocation + fileName);
             return "success";
 
         }catch(Exception e){

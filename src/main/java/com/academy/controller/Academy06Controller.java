@@ -34,7 +34,7 @@ public class Academy06Controller {
 
         logger.debug("exportStudentInfoExcel_Grade:{}", grade);
 
-        List<StudentInfo> studentInfoList = studentService.queryStudentData(grade.toString(), "");
+        List<StudentInfo> studentInfoList = studentService.findByGrades(grade);
 
         if( studentInfoList.isEmpty()){
             return "M9999";

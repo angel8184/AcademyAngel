@@ -115,6 +115,30 @@ public class StudentService {
         return studentInfo;
     }
 
+    public List<StudentInfo> findByGrades(int grade){
+
+        List<StudentInfo> studentInfoList = new ArrayList<>();
+
+        List<Integer> grades = new ArrayList<>();
+
+        if( grade == 10){
+            for(int i = 1; i < 7; i++){
+                grades.add(i);
+            }
+        }else if( grade == 11){
+            for(int i = 7; i < 10; i++){
+                grades.add(i);
+            }
+        }else{
+            grades.add(grade);
+        }
+
+        studentInfoList = studentInfoDao.findByGrades(grades);
+
+        return studentInfoList;
+    }
+
+
     public List<Academy0306Response> queryPaymentForPrintReceipt (Academy0306Request academy0306Request){
 
         List<StudentInfo> studentInfoList = queryStudentData(academy0306Request.getGrade(), academy0306Request.getName());
