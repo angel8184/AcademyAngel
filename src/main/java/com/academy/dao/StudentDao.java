@@ -23,7 +23,7 @@ public interface StudentDao extends CrudRepository<StudentInfo, Integer> {
 
     public List<StudentInfo> findByGradeAndName(int grade, String name);
 
-    @Query("SELECT e FROM StudentInfo e WHERE e.grade IN :grades")     // 2. Spring JPA In cause using @Query
+    @Query("SELECT e FROM StudentInfo e WHERE e.grade IN :grades order by e.grade")     // 2. Spring JPA In cause using @Query
     List<StudentInfo> findByGrades(@Param("grades")List<Integer> grades);
 
 }

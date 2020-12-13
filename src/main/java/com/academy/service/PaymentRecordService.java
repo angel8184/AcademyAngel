@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -61,6 +62,28 @@ public class PaymentRecordService {
     public List<StdntPaymentRecordMain> queryPaymentRecordMainByGradeAndMonth(int grade, int month){
 
         List<StdntPaymentRecordMain> stdntPaymentRecordMainList = paymentRecordMainDao.findByGradeAndPaymentMonth(grade, month);
+
+        return stdntPaymentRecordMainList;
+    }
+
+    //findByGradesAndPaymentMonth
+    public List<StdntPaymentRecordMain> queryPaymentRecordMainByGradesAndMonth(int grade, int month){
+
+        List<Integer> grades = new ArrayList<>();
+
+        if( grade == 10){
+            for(int i = 1; i < 7; i++){
+                grades.add(i);
+            }
+        }else if( grade == 11){
+            for(int i = 7; i < 10; i++){
+                grades.add(i);
+            }
+        }else{
+            grades.add(grade);
+        }
+
+        List<StdntPaymentRecordMain> stdntPaymentRecordMainList = paymentRecordMainDao.findByGradesAndPaymentMonthOrderByGrade(grades, month);
 
         return stdntPaymentRecordMainList;
     }

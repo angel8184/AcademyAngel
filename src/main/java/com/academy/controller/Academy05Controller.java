@@ -53,7 +53,7 @@ public class Academy05Controller {
         List<CourseFeeInfo> courseFeeInfoList = courseFeeService.queryAllCourseFee();
         List<String> courseFeeNameList = totalSummaryService.getExcelHeader(courseFeeInfoList);
 
-        List<StdntPaymentRecordMain> stdntPaymentRecordMainList = paymentRecordService.queryPaymentRecordMainByGradeAndMonth(grade, month);
+        List<StdntPaymentRecordMain> stdntPaymentRecordMainList = paymentRecordService.queryPaymentRecordMainByGradesAndMonth(grade, month);
         logger.debug("How many students in this condition:{}", stdntPaymentRecordMainList.size());
 
         if( stdntPaymentRecordMainList.isEmpty()){

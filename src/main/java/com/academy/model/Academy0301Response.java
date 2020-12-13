@@ -1,18 +1,19 @@
 package com.academy.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Academy0301Response {
 
-    private String stdntId;
-    private String stdntName;
-    private String grade;
-    private String payMainId;
-    private String paymentMonth;
-    private List<Academy0301Response_courseFeeList> courseFeeList;
-    private String paymentCrDate;
-    private String payDate;
-    private String receivingUnit;
+    private String stdntId = "";
+    private String stdntName = "";
+    private String grade = "";
+    private String payMainId = "";
+    private String paymentMonth = "";
+    private List<Academy0301Response_courseFeeList> courseFeeList = new ArrayList<>();
+    private String paymentCrDate = "";
+    private String payDate = "";
+    private String receivingUnit = "";
 
     public String getStdntId() {
         return stdntId;
