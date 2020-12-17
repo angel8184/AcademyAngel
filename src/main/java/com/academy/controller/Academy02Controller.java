@@ -68,7 +68,7 @@ public class Academy02Controller {
             logger.debug("inertOrDeleteCourseFee Error", e);
             return "M9999";
         }
-        return "M0000";
+        return "success";
     }
 
     @PostMapping("/03")

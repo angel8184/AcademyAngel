@@ -51,20 +51,19 @@ public class Academy01Controller {
 
                 academy0101Response.setStdntId(String.valueOf(studentInfo.getStdntId()));
                 academy0101Response.setName(studentInfo.getName());
-                academy0101Response.setBirth(studentInfo.getBirth().toString());
+                academy0101Response.setBirth(studentInfo.getBirth().toString().substring(0, 10));
                 academy0101Response.setIdCard(studentInfo.getIdCard());
                 academy0101Response.setParentName(studentInfo.getParentName());
                 academy0101Response.setPhone(studentInfo.getPhone());
-                academy0101Response.setNewNote(studentInfo.isNewNote() == true ? "1" : "0");
                 academy0101Response.setLeaveNote(studentInfo.isLeaveNote() ==  true ? "1" : "0");
-                academy0101Response.setNewDate(studentInfo.getNewDate() == null ? "" : studentInfo.getNewDate().toString());
-                academy0101Response.setLeaveDate(studentInfo.getLeaveDate() == null ? "" : studentInfo.getLeaveDate().toString());
+                academy0101Response.setNewDate(studentInfo.getNewDate() == null ? "" : studentInfo.getNewDate().toString().substring(0, 10));
+                academy0101Response.setLeaveDate(studentInfo.getLeaveDate() == null ? "" : studentInfo.getLeaveDate().toString().substring(0, 10));
                 academy0101Response.setGrade(String.valueOf(studentInfo.getGrade()));
                 academy0101Response.setHandoutExemption(studentInfo.isHandoutExemption() == true ? "1" : "0");
                 academy0101Response.setEngDiscount(studentInfo.isEngDiscount() == true ? "1" : "0");
                 academy0101Response.setMathDiscount(studentInfo.isMathDiscount() == true ? "1" : "0");
                 academy0101Response.setRemark(studentInfo.getRemark());
-                academy0101Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" : studentInfo.getLastPaymentDate().toString());
+                academy0101Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" : studentInfo.getLastPaymentDate().toString().substring(0, 10));
                 academy0101Response.setCourseFeeList(getCourseFeeList(stdntSignUpRecordList));
 
                 academy0101ResponseList.add(academy0101Response);
@@ -88,7 +87,7 @@ public class Academy01Controller {
             logger.debug("insertStudentData Error", e);
             return "M9999";
         }
-        return "M0000";
+        return "success";
     }
 
     @PostMapping("/03")
@@ -109,7 +108,7 @@ public class Academy01Controller {
             logger.debug("updateStudentGrade Error", e);
             return "M9999";
         }
-        return "M0000";
+        return "success";
     }
 
     private List<Academy0101Response_courseFeeList> getCourseFeeList(List<StdntSignUpRecord> stdntSignUpRecordList){

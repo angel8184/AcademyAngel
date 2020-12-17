@@ -11,7 +11,6 @@ public class Academy0101Response {
     private String idCard = "";
     private String parentName = "";
     private String phone = "";
-    private String newNote = "";
     private String leaveNote = "";
     private String newDate = "";
     private String leaveDate = "";
@@ -69,14 +68,6 @@ public class Academy0101Response {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getNewNote() {
-        return newNote;
-    }
-
-    public void setNewNote(String newNote) {
-        this.newNote = newNote;
     }
 
     public String getLeaveNote() {

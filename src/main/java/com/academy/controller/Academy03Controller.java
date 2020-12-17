@@ -43,7 +43,7 @@ public class Academy03Controller {
             //use stdntId and paymonth to find payment_Main.
             StdntPaymentRecordMain stdntPaymentRecordMain = paymentRecordService.
                     queryPaymentRecordMainByStdntIdAndPaymentMonth(studentInfo.getStdntId(),
-                            Integer.parseInt(academy0301Request.getPaymentMonth()));
+                            Integer.parseInt(academy0301Request.getPaymentMonth())); //多加一個年級的條件比較妥。
 
             //use main.Id to find courseList.
             List<StdntPaymentRecord> stdntPaymentRecordList = paymentRecordService.queryPaymentRecordByMainId(stdntPaymentRecordMain.getId());
@@ -54,8 +54,8 @@ public class Academy03Controller {
             academy0301Response.setPayMainId(String.valueOf(stdntPaymentRecordMain.getId()));
             academy0301Response.setPaymentMonth(String.valueOf(stdntPaymentRecordMain.getPaymentMonth()));
             academy0301Response.setCourseFeeList(getPaymentCourseList(stdntPaymentRecordList));
-            academy0301Response.setPaymentCrDate(stdntPaymentRecordMain.getCreateDate().toString());
-            academy0301Response.setPayDate(stdntPaymentRecordMain.getPayDate() == null ? "" : stdntPaymentRecordMain.getPayDate().toString());
+            academy0301Response.setPaymentCrDate(stdntPaymentRecordMain.getCreateDate().toString().substring(0, 10));
+            academy0301Response.setPayDate(stdntPaymentRecordMain.getPayDate() == null ? "" : stdntPaymentRecordMain.getPayDate().toString().substring(0, 10));
             academy0301Response.setReceivingUnit(stdntPaymentRecordMain.getReceivingUnit());
 
         }catch (Exception e){
@@ -82,7 +82,7 @@ public class Academy03Controller {
                 academy0302Response.setStdntId(String.valueOf(studentInfo.getStdntId()));
                 academy0302Response.setStdntName(studentInfo.getName());
                 academy0302Response.setGrade(studentService.getGradeName(studentInfo.getGrade()));
-                academy0302Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" : studentInfo.getLastPaymentDate().toString());
+                academy0302Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" : studentInfo.getLastPaymentDate().toString().substring(0, 10));
 
                 academy0302ResponseList.add(academy0302Response);
             }

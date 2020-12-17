@@ -13,7 +13,6 @@ public class StudentInfo {
     private String idCard;
     private String parentName;
     private String phone;
-    private boolean newNote;
     private boolean leaveNote;
     private Timestamp newDate;
     private Timestamp leaveDate;
@@ -60,12 +59,6 @@ public class StudentInfo {
     public String getPhone() { return phone; }
 
     public void setPhone(String phone) { this.phone = phone; }
-
-    @Basic
-    @Column(name = "NEW_NOTE", nullable = true)
-    public boolean isNewNote() { return newNote; }
-
-    public void setNewNote(boolean newNote) { this.newNote = newNote; }
 
     @Basic
     @Column(name = "LEAVE_NOTE", nullable = true)

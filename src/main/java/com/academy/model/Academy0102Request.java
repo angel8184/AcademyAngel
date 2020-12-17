@@ -11,7 +11,6 @@ public class Academy0102Request {
     private String idCard;
     private String parentName;
     private String phone;
-    private boolean newNote;
     private boolean leaveNote;
     private Timestamp newDate;
     private Timestamp leaveDate;
@@ -70,14 +69,6 @@ public class Academy0102Request {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public boolean isNewNote() {
-        return newNote;
-    }
-
-    public void setNewNote(boolean newNote) {
-        this.newNote = newNote;
     }
 
     public boolean isLeaveNote() {

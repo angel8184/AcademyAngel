@@ -52,7 +52,6 @@ public class StudentService {
         studentInfo.setIdCard(academy0102Request.getIdCard());
         studentInfo.setParentName(academy0102Request.getParentName());
         studentInfo.setPhone(academy0102Request.getPhone());
-        studentInfo.setNewNote(academy0102Request.isNewNote());
         studentInfo.setLeaveNote(academy0102Request.isLeaveNote());
         studentInfo.setNewDate(academy0102Request.getNewDate());
         studentInfo.setLeaveDate(academy0102Request.getLeaveDate());
@@ -191,7 +190,6 @@ public class StudentService {
             academy0601Response.setGrade(gradeMap.get(studentInfo.getGrade()));
             academy0601Response.setParentName(studentInfo.getParentName());
             academy0601Response.setPhone(studentInfo.getPhone());
-            academy0601Response.setNewNote(studentInfo.isNewNote() == true ? "Y" : "");
             academy0601Response.setLeaveNote(studentInfo.isLeaveNote() == true ? "Y" : "");
             academy0601Response.setNewDate(studentInfo.getNewDate() == null ? "" : studentInfo.getNewDate().toString().substring(0,10));
             academy0601Response.setLeaveDate(studentInfo.getLeaveDate() == null ? "" : studentInfo.getLeaveDate().toString().substring(0,10));
