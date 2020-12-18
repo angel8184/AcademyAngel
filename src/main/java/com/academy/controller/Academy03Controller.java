@@ -42,8 +42,8 @@ public class Academy03Controller {
 
             //use stdntId and paymonth to find payment_Main.
             StdntPaymentRecordMain stdntPaymentRecordMain = paymentRecordService.
-                    queryPaymentRecordMainByStdntIdAndPaymentMonth(studentInfo.getStdntId(),
-                            Integer.parseInt(academy0301Request.getPaymentMonth())); //多加一個年級的條件比較妥。
+                    queryPaymentRecordMainByStdntIdAndGradeAndPaymentMonth(studentInfo.getStdntId(), studentInfo.getGrade(),
+                            Integer.parseInt(academy0301Request.getPaymentMonth()));
 
             //use main.Id to find courseList.
             List<StdntPaymentRecord> stdntPaymentRecordList = paymentRecordService.queryPaymentRecordByMainId(stdntPaymentRecordMain.getId());
