@@ -185,30 +185,28 @@ public class StudentService {
 
         for(StudentInfo studentInfo : studentInfoList){
 
-            if( !studentInfo.isLeaveNote()){
-                Academy0601Response academy0601Response = new Academy0601Response();
+            Academy0601Response academy0601Response = new Academy0601Response();
 
-                academy0601Response.setName(studentInfo.getName());
-                academy0601Response.setBirth(DateTimeUtil.convertTWDate(studentInfo.getBirth().toString().substring(0,10)
-                        ,"yyyy-MM-dd","yyy-MM-dd"));
-                academy0601Response.setIdCard(studentInfo.getIdCard());
-                academy0601Response.setGrade(gradeMap.get(studentInfo.getGrade()));
-                academy0601Response.setParentName(studentInfo.getParentName());
-                academy0601Response.setPhone(studentInfo.getPhone());
-                academy0601Response.setLeaveNote(studentInfo.isLeaveNote() == true ? "Y" : "");
-                academy0601Response.setNewDate(studentInfo.getNewDate() == null ? "" : DateTimeUtil.convertTWDate(
-                        studentInfo.getNewDate().toString().substring(0,10),"yyyy-MM-dd","yyy-MM-dd"));
-                academy0601Response.setLeaveDate(studentInfo.getLeaveDate() == null ? "" : DateTimeUtil.convertTWDate(
-                        studentInfo.getLeaveDate().toString().substring(0,10),"yyyy-MM-dd","yyy-MM-dd"));
-                academy0601Response.setHandoutExemption(studentInfo.isHandoutExemption() == true ? "Y" : "");
-                academy0601Response.setEngDiscount(studentInfo.isEngDiscount() == true ? "Y" : "");
-                academy0601Response.setMathDiscount(studentInfo.isMathDiscount() == true ? "Y" : "");
-                academy0601Response.setRemark(studentInfo.getRemark());
-                academy0601Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" : DateTimeUtil.convertTWDate(
-                        studentInfo.getLastPaymentDate().toString().substring(0,10),"yyyy-MM-dd","yyy-MM-dd"));
+            academy0601Response.setName(studentInfo.getName());
+            academy0601Response.setBirth(DateTimeUtil.convertTWDate(studentInfo.getBirth().toString().substring(0,10)
+                    ,"yyyy-MM-dd","yyy-MM-dd"));
+            academy0601Response.setIdCard(studentInfo.getIdCard());
+            academy0601Response.setGrade(gradeMap.get(studentInfo.getGrade()));
+            academy0601Response.setParentName(studentInfo.getParentName());
+            academy0601Response.setPhone(studentInfo.getPhone());
+            academy0601Response.setLeaveNote(studentInfo.isLeaveNote() == true ? "Y" : "");
+            academy0601Response.setNewDate(studentInfo.getNewDate() == null ? "" : DateTimeUtil.convertTWDate(
+                    studentInfo.getNewDate().toString().substring(0,10),"yyyy-MM-dd","yyy-MM-dd"));
+            academy0601Response.setLeaveDate(studentInfo.getLeaveDate() == null ? "" : DateTimeUtil.convertTWDate(
+                    studentInfo.getLeaveDate().toString().substring(0,10),"yyyy-MM-dd","yyy-MM-dd"));
+            academy0601Response.setHandoutExemption(studentInfo.isHandoutExemption() == true ? "Y" : "");
+            academy0601Response.setEngDiscount(studentInfo.isEngDiscount() == true ? "Y" : "");
+            academy0601Response.setMathDiscount(studentInfo.isMathDiscount() == true ? "Y" : "");
+            academy0601Response.setRemark(studentInfo.getRemark());
+            academy0601Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" : DateTimeUtil.convertTWDate(
+                    studentInfo.getLastPaymentDate().toString().substring(0,10),"yyyy-MM-dd","yyy-MM-dd"));
 
-                academy0601ResponseList.add(academy0601Response);
-            }
+            academy0601ResponseList.add(academy0601Response);
         }
         return academy0601ResponseList;
     }
