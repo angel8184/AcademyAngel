@@ -11,6 +11,7 @@ public class StdntPaymentRecordMain {
     private int id;
     private int refStdntId;
     private int grade;
+    private int paymentYear;
     private int paymentMonth;
     private Timestamp createDate;
     private String receivingUnit;
@@ -34,6 +35,12 @@ public class StdntPaymentRecordMain {
     public int getGrade() { return grade; }
 
     public void setGrade(int grade) { this.grade = grade; }
+
+    @Basic
+    @Column(name = "PAYMENT_YEAR", nullable = false)
+    public int getPaymentYear() { return paymentYear; }
+
+    public void setPaymentYear(int paymentYear) { this.paymentYear = paymentYear; }
 
     @Basic
     @Column(name = "PAYMENT_MONTH", nullable = false)

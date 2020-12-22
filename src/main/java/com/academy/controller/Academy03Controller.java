@@ -30,38 +30,20 @@ public class Academy03Controller {
     PaymentRecordService paymentRecordService;
 
     @PostMapping("/01")
-    public Academy0301Response queryPaymentData(@RequestBody Academy0301Request academy0301Request){
+    public List<Academy0301Response> queryPaymentData(@RequestBody Academy0301Request academy0301Request){
 
-        logger.debug("queryPaymentData_Name:{}, paymentMonth:{}", academy0301Request.getName(), academy0301Request.getPaymentMonth());
+        logger.debug("queryPaymentData_Name:{}, Grade：{}, paymentYear：{}, paymentMonth:{}",
+                academy0301Request.getName(), academy0301Request.getGrade(), academy0301Request.getPaymentYear(), academy0301Request.getPaymentMonth());
 
-        Academy0301Response academy0301Response = new Academy0301Response();
+        List<Academy0301Response> academy0301ResponseList = new ArrayList<>();
 
         try {
-            //use Name to find Student data.
-            StudentInfo studentInfo = studentService.findbyName(academy0301Request.getName());
-
-            //use stdntId and paymonth to find payment_Main.
-            StdntPaymentRecordMain stdntPaymentRecordMain = paymentRecordService.
-                    queryPaymentRecordMainByStdntIdAndGradeAndPaymentMonth(studentInfo.getStdntId(), studentInfo.getGrade(),
-                            Integer.parseInt(academy0301Request.getPaymentMonth()));
-
-            //use main.Id to find courseList.
-            List<StdntPaymentRecord> stdntPaymentRecordList = paymentRecordService.queryPaymentRecordByMainId(stdntPaymentRecordMain.getId());
-
-            academy0301Response.setStdntId(String.valueOf(studentInfo.getStdntId()));
-            academy0301Response.setStdntName(studentInfo.getName());
-            academy0301Response.setGrade(studentService.getGradeName(studentInfo.getGrade()));
-            academy0301Response.setPayMainId(String.valueOf(stdntPaymentRecordMain.getId()));
-            academy0301Response.setPaymentMonth(String.valueOf(stdntPaymentRecordMain.getPaymentMonth()));
-            academy0301Response.setCourseFeeList(getPaymentCourseList(stdntPaymentRecordList));
-            academy0301Response.setPaymentCrDate(stdntPaymentRecordMain.getCreateDate().toString().substring(0, 10));
-            academy0301Response.setPayDate(stdntPaymentRecordMain.getPayDate() == null ? "" : stdntPaymentRecordMain.getPayDate().toString().substring(0, 10));
-            academy0301Response.setReceivingUnit(stdntPaymentRecordMain.getReceivingUnit());
+            academy0301ResponseList = paymentRecordService.queryStudentPaymentRecord(academy0301Request);
 
         }catch (Exception e){
             logger.debug("queryPaymentData Error", e);
         }
-        return academy0301Response;
+        return academy0301ResponseList;
     }
 
 
@@ -77,14 +59,16 @@ public class Academy03Controller {
                     , academy0302Request.getName());
 
             for(StudentInfo studentInfo : studentInfoList){
-                Academy0302Response academy0302Response = new Academy0302Response();
+                if(!studentInfo.isLeaveNote()){
+                    Academy0302Response academy0302Response = new Academy0302Response();
 
-                academy0302Response.setStdntId(String.valueOf(studentInfo.getStdntId()));
-                academy0302Response.setStdntName(studentInfo.getName());
-                academy0302Response.setGrade(studentService.getGradeName(studentInfo.getGrade()));
-                academy0302Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" : studentInfo.getLastPaymentDate().toString().substring(0, 10));
+                    academy0302Response.setStdntId(String.valueOf(studentInfo.getStdntId()));
+                    academy0302Response.setStdntName(studentInfo.getName());
+                    academy0302Response.setGrade(studentService.getGradeName(studentInfo.getGrade()));
+                    academy0302Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" : studentInfo.getLastPaymentDate().toString().substring(0, 10));
 
-                academy0302ResponseList.add(academy0302Response);
+                    academy0302ResponseList.add(academy0302Response);
+                }
             }
         }catch (Exception e) {
             logger.debug("queryStudentInfo Error", e);
@@ -105,7 +89,7 @@ public class Academy03Controller {
 
             List<StdntPaymentRecord> stdntPaymentRecordList = paymentRecordService.queryPaymentRecordByMainId(stdntPaymentRecordMain.getId());
 
-            academy0303Response.setCourseFeeList(getPaymentCourseList(stdntPaymentRecordList));
+            academy0303Response.setCourseFeeList(paymentRecordService.getPaymentCourseList(stdntPaymentRecordList));
             academy0303Response.setPaymentMonth(String.valueOf(stdntPaymentRecordMain.getPaymentMonth()));
         }catch (Exception e){
             logger.debug("queryStdntPaymentRecordLastMonth Error", e);
@@ -165,27 +149,5 @@ public class Academy03Controller {
             logger.debug("queryPaymentForPrintReceipt Error", e);
         }
         return academy0306ResponseList;
-    }
-
-    private List<Academy0301Response_courseFeeList> getPaymentCourseList(List<StdntPaymentRecord> stdntPaymentRecordList){
-
-        List<Academy0301Response_courseFeeList> courseFeeLists = new ArrayList<>();
-
-        if(!stdntPaymentRecordList.isEmpty()){
-            for(StdntPaymentRecord stdntPaymentRecord : stdntPaymentRecordList){
-
-                Academy0301Response_courseFeeList courseFee = new Academy0301Response_courseFeeList();
-
-                courseFee.setPayRecordId(String.valueOf(stdntPaymentRecord.getId()));
-                courseFee.setCourseFeeId(String.valueOf(stdntPaymentRecord.getRefCourseFeeId()));
-                courseFee.setRemark(stdntPaymentRecord.getRemark());
-                courseFee.setExpense(String.valueOf(stdntPaymentRecord.getExpense()));
-                courseFee.setExpenseMonthStart(String.valueOf(stdntPaymentRecord.getExpenseMonthStart()));
-                courseFee.setExpenseMonthEnd(String.valueOf(stdntPaymentRecord.getExpenseMonthEnd()));
-
-                courseFeeLists.add(courseFee);
-            }
-        }
-        return courseFeeLists;
     }
 }

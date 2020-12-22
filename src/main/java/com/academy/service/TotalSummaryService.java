@@ -106,44 +106,47 @@ public class TotalSummaryService {
 
             //studentInfo: "學生姓名", "年級", "生日", "身分證字號", "家長姓名", 電話"
             StudentInfo studentInfo = studentDao.findByStdntId(stdntPaymentRecordMain.getRefStdntId());
-            studentPayRecord.add(studentInfo.getName());
-            studentPayRecord.add(gradeMap.get(studentInfo.getGrade()));
-            studentPayRecord.add(studentInfo.getBirth().toString().substring(0,10));
-            studentPayRecord.add(studentInfo.getIdCard());
-            studentPayRecord.add(studentInfo.getParentName());
-            studentPayRecord.add(studentInfo.getPhone());
 
-            //signUpCourseFee
-            List<StdntSignUpRecord> stdntSignUpRecordList = signUpRecordDao.findByRefStdntId(stdntPaymentRecordMain.getRefStdntId());
-            String signUpCourseFee = receiptService.getCourseFeeName(stdntSignUpRecordList);
-            studentPayRecord.add(signUpCourseFee);
+            if( !studentInfo.isLeaveNote()){
+                studentPayRecord.add(studentInfo.getName());
+                studentPayRecord.add(gradeMap.get(studentInfo.getGrade()));
+                studentPayRecord.add(studentInfo.getBirth().toString().substring(0,10));
+                studentPayRecord.add(studentInfo.getIdCard());
+                studentPayRecord.add(studentInfo.getParentName());
+                studentPayRecord.add(studentInfo.getPhone());
 
-            //payRecordMap
-            List<StdntPaymentRecord> stdntPaymentRecordList = paymentRecordDao.findByRefPaymentMainId(stdntPaymentRecordMain.getId());
-            LinkedHashMap<Integer, Integer> payRecordMap = new LinkedHashMap<>();
+                //signUpCourseFee
+                List<StdntSignUpRecord> stdntSignUpRecordList = signUpRecordDao.findByRefStdntId(stdntPaymentRecordMain.getRefStdntId());
+                String signUpCourseFee = receiptService.getCourseFeeName(stdntSignUpRecordList);
+                studentPayRecord.add(signUpCourseFee);
 
-            for(StdntPaymentRecord stdntPaymentRecord : stdntPaymentRecordList){
-                payRecordMap.put(stdntPaymentRecord.getRefCourseFeeId(), stdntPaymentRecord.getExpense());
-            }
+                //payRecordMap
+                List<StdntPaymentRecord> stdntPaymentRecordList = paymentRecordDao.findByRefPaymentMainId(stdntPaymentRecordMain.getId());
+                LinkedHashMap<Integer, Integer> payRecordMap = new LinkedHashMap<>();
 
-            //step4. second main loop courseFeeCount to get courseFeeMap key to mapping payRecordMap.
-            for (Map.Entry<Integer, String> courseFeeMapEntry : courseFeeMap.entrySet()){
-                if(payRecordMap.get(courseFeeMapEntry.getKey()) == null){
-                    studentPayRecord.add(0);
-                }else{
-                    totalAmount += payRecordMap.get(courseFeeMapEntry.getKey());
-                    studentPayRecord.add(expenseFormat.format(payRecordMap.get(courseFeeMapEntry.getKey())));
+                for(StdntPaymentRecord stdntPaymentRecord : stdntPaymentRecordList){
+                    payRecordMap.put(stdntPaymentRecord.getRefCourseFeeId(), stdntPaymentRecord.getExpense());
                 }
+
+                //step4. second main loop courseFeeCount to get courseFeeMap key to mapping payRecordMap.
+                for (Map.Entry<Integer, String> courseFeeMapEntry : courseFeeMap.entrySet()){
+                    if(payRecordMap.get(courseFeeMapEntry.getKey()) == null){
+                        studentPayRecord.add(0);
+                    }else{
+                        totalAmount += payRecordMap.get(courseFeeMapEntry.getKey());
+                        studentPayRecord.add(expenseFormat.format(payRecordMap.get(courseFeeMapEntry.getKey())));
+                    }
+                }
+
+                //add "繳費合計金額", "收費日期", "收款單位"
+                studentPayRecord.add(expenseFormat.format(totalAmount));
+                studentPayRecord.add(stdntPaymentRecordMain.getPayDate() == null ? "" : stdntPaymentRecordMain.getPayDate()
+                        .toString().substring(0,10));
+                studentPayRecord.add(stdntPaymentRecordMain.getReceivingUnit());
+
+                //step5. List<List<Object>> add student List.
+                studentPayRecordList.add(studentPayRecord);
             }
-
-            //add "繳費合計金額", "收費日期", "收款單位"
-            studentPayRecord.add(expenseFormat.format(totalAmount));
-            studentPayRecord.add(stdntPaymentRecordMain.getPayDate() == null ? "" : stdntPaymentRecordMain.getPayDate()
-                    .toString().substring(0,10));
-            studentPayRecord.add(stdntPaymentRecordMain.getReceivingUnit());
-
-            //step5. List<List<Object>> add student List.
-            studentPayRecordList.add(studentPayRecord);
         }
 
         return studentPayRecordList;

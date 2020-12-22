@@ -2,16 +2,23 @@ package com.academy.service;
 
 import com.academy.dao.PaymentRecordDao;
 import com.academy.dao.PaymentRecordMainDao;
-import com.academy.model.Academy0304Request;
-import com.academy.model.Academy0304Request_courseFeeList;
+import com.academy.dao.StudentDao;
+import com.academy.model.*;
 import com.academy.vo.StdntPaymentRecord;
 import com.academy.vo.StdntPaymentRecordMain;
+import com.academy.vo.StudentInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -22,6 +29,13 @@ public class PaymentRecordService {
     PaymentRecordMainDao paymentRecordMainDao;
     @Autowired
     PaymentRecordDao paymentRecordDao;
+    @Autowired
+    StudentDao studentInfoDao;
+    @Autowired
+    StudentService studentService;
+
+    @PersistenceContext
+    EntityManager entityManager;
 
 
     public List<StdntPaymentRecordMain> queryPaymentRecordMain(){
@@ -93,6 +107,7 @@ public class PaymentRecordService {
         int stdntId = Integer.parseInt(academy0304Request.getStdntId());
         int grade = Integer.parseInt(academy0304Request.getGrade());
         int paymentMonth = Integer.parseInt(academy0304Request.getPaymentMonth());
+        int year = Calendar.getInstance().get(Calendar.YEAR);
 
         StdntPaymentRecordMain stdntPaymentRecordMain = new StdntPaymentRecordMain();
 
@@ -103,6 +118,7 @@ public class PaymentRecordService {
         }
         stdntPaymentRecordMain.setRefStdntId(stdntId);
         stdntPaymentRecordMain.setGrade(grade);
+        stdntPaymentRecordMain.setPaymentYear(year);
         stdntPaymentRecordMain.setPaymentMonth(paymentMonth);
         stdntPaymentRecordMain.setCreateDate(timestamp);
 
@@ -147,6 +163,162 @@ public class PaymentRecordService {
             paymentRecordDao.save(stdntPaymentRecord);
         }
 
+    }
+
+    public List<Academy0301Response> queryStudentPaymentRecord(Academy0301Request academy0301Request) throws ParseException{
+
+        List<Academy0301Response> academy0301ResponseList = new ArrayList<>();
+
+        //query StudentInfo first if academy0301Request.getName() is not null.
+        if(academy0301Request.getName() != ""){
+
+            //use Name to find Student data.
+            StudentInfo studentInfo = studentInfoDao.findByName(academy0301Request.getName()).get(0);
+
+            //use stdntId and paymonth to find payment_Main.
+            List<StdntPaymentRecordMain> stdntPaymentRecordMainList = this.findStdntPaymentRecordMainList(academy0301Request,
+                    String.valueOf(studentInfo.getStdntId()));
+
+            if( !stdntPaymentRecordMainList.isEmpty()){
+                for(StdntPaymentRecordMain stdntPaymentRecordMain : stdntPaymentRecordMainList){
+                    Academy0301Response academy0301Response = get0301ResponseDetail(stdntPaymentRecordMain, studentInfo);
+
+                    academy0301ResponseList.add(academy0301Response);
+                }
+            }
+
+        }else{
+            //others query StdntPaymentRecordMain first.
+            List<StdntPaymentRecordMain> stdntPaymentRecordMainList = this.findStdntPaymentRecordMainList(academy0301Request,
+                    "");
+
+            //use main.Id to find courseList.
+            //use Name to find Student data.
+            if( !stdntPaymentRecordMainList.isEmpty()){
+                for(StdntPaymentRecordMain stdntPaymentRecordMain : stdntPaymentRecordMainList){
+                    StudentInfo studentInfo = studentInfoDao.findByStdntId(stdntPaymentRecordMain.getRefStdntId());
+                    Academy0301Response academy0301Response = get0301ResponseDetail(stdntPaymentRecordMain, studentInfo);
+
+                    academy0301ResponseList.add(academy0301Response);
+                }
+            }
+        }
+
+        return academy0301ResponseList;
+
+    }
+
+    public Academy0301Response get0301ResponseDetail(StdntPaymentRecordMain stdntPaymentRecordMain, StudentInfo studentInfo){
+
+        Academy0301Response academy0301Response = new Academy0301Response();
+
+        List<StdntPaymentRecord> stdntPaymentRecordList = paymentRecordDao.findByRefPaymentMainId(stdntPaymentRecordMain.getId());
+
+        if(!stdntPaymentRecordList.isEmpty()){
+
+            academy0301Response.setStdntId(String.valueOf(studentInfo.getStdntId()));
+            academy0301Response.setStdntName(studentInfo.getName());
+            academy0301Response.setGrade(studentService.getGradeName(studentInfo.getGrade()));
+            academy0301Response.setPayMainId(String.valueOf(stdntPaymentRecordMain.getId()));
+            academy0301Response.setPaymentMonth(String.valueOf(stdntPaymentRecordMain.getPaymentMonth()));
+            academy0301Response.setCourseFeeList(getPaymentCourseList(stdntPaymentRecordList));
+            academy0301Response.setPaymentCrDate(stdntPaymentRecordMain.getCreateDate().toString().substring(0, 10));
+            academy0301Response.setPayDate(stdntPaymentRecordMain.getPayDate() == null ? "" : stdntPaymentRecordMain.getPayDate().toString().substring(0, 10));
+            academy0301Response.setReceivingUnit(stdntPaymentRecordMain.getReceivingUnit());
+
+        }
+
+        return academy0301Response;
+    }
+
+    //0301 動態查詢
+    public List<StdntPaymentRecordMain> findStdntPaymentRecordMainList(Academy0301Request academy0301Request, String stdntId) throws ParseException{
+
+        StringBuilder sql = new StringBuilder();
+
+        sql.append("SELECT main.*");
+        sql.append("  FROM stdnt_payment_record_main main");
+        sql.append(" WHERE 1=1");
+
+        String querySql = getQuerySql(sql, academy0301Request, stdntId);
+        Query query = entityManager.createNativeQuery(querySql.toString(),StdntPaymentRecordMain.class);
+        setQueryParameter(query, academy0301Request, stdntId);
+
+
+        return query.getResultList();
+    }
+
+    private void setQueryParameter(Query query, Academy0301Request academy0301Request, String stdntId) throws ParseException {
+
+        //年份
+        if (StringUtils.isNotBlank(academy0301Request.getPaymentYear())) {
+            query.setParameter("paymentYear", academy0301Request.getPaymentYear());
+        }
+
+        //月份
+        if (StringUtils.isNotBlank(academy0301Request.getPaymentMonth())) {
+            query.setParameter("paymentMonth", academy0301Request.getPaymentMonth());
+        }
+
+        //年級
+        if (StringUtils.isNotBlank(academy0301Request.getGrade())) {
+            query.setParameter("grade", academy0301Request.getGrade());
+        }
+
+        //學生ID
+        if (StringUtils.isNotBlank(stdntId)) {
+            query.setParameter("stdntId", stdntId);
+        }
+    }
+
+    private String getQuerySql(StringBuilder sql, Academy0301Request academy0301Request, String stdntId) throws ParseException {
+
+        //年份
+        if (StringUtils.isNotBlank(academy0301Request.getPaymentYear())) {
+            sql.append(" and PAYMENT_YEAR = :paymentYear");
+        }
+
+        //月份
+        if (StringUtils.isNotBlank(academy0301Request.getPaymentMonth())) {
+            sql.append(" and PAYMENT_MONTH = :paymentMonth");
+        }
+
+        //年級
+        if (StringUtils.isNotBlank(academy0301Request.getGrade())) {
+            sql.append(" and GRADE = :grade");
+        }
+
+        //學生ID
+        if (StringUtils.isNotBlank(stdntId)) {
+            sql.append(" and REF_STDNT_ID = :stdntId");
+        }
+
+        sql.append(" ORDER BY PAYMENT_MONTH");
+
+        return sql.toString();
+
+    }
+
+    public List<Academy0301Response_courseFeeList> getPaymentCourseList(List<StdntPaymentRecord> stdntPaymentRecordList){
+
+        List<Academy0301Response_courseFeeList> courseFeeLists = new ArrayList<>();
+
+        if(!stdntPaymentRecordList.isEmpty()){
+            for(StdntPaymentRecord stdntPaymentRecord : stdntPaymentRecordList){
+
+                Academy0301Response_courseFeeList courseFee = new Academy0301Response_courseFeeList();
+
+                courseFee.setPayRecordId(String.valueOf(stdntPaymentRecord.getId()));
+                courseFee.setCourseFeeId(String.valueOf(stdntPaymentRecord.getRefCourseFeeId()));
+                courseFee.setRemark(stdntPaymentRecord.getRemark());
+                courseFee.setExpense(String.valueOf(stdntPaymentRecord.getExpense()));
+                courseFee.setExpenseMonthStart(String.valueOf(stdntPaymentRecord.getExpenseMonthStart()));
+                courseFee.setExpenseMonthEnd(String.valueOf(stdntPaymentRecord.getExpenseMonthEnd()));
+
+                courseFeeLists.add(courseFee);
+            }
+        }
+        return courseFeeLists;
     }
 
 }

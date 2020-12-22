@@ -19,12 +19,21 @@ public class SignUpRecordService {
 
     public void insertSignUpRecord(int stdntId, List<Academy0102Request_course> academy0101RequestCourseList ){
 
+        //先刪掉所有STDNTID 原先報名的課程
+        List<StdntSignUpRecord> stdntSignUpRecordList = this.queryStdntSignUpRecord(stdntId);
+
+        if(!stdntSignUpRecordList.isEmpty()){
+            signUpRecordDao.delete(stdntSignUpRecordList);
+        }
+
         for(Academy0102Request_course course : academy0101RequestCourseList){
             StdntSignUpRecord stdntSignUpRecord = new StdntSignUpRecord();
 
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-            if(course.getSignUpId() != null){
+            course.setSignUpId(course.getSignUpId().equals( "") ? null : course.getSignUpId());
+
+            if( course.getSignUpId() != null){
                 stdntSignUpRecord.setId(Integer.parseInt(course.getSignUpId()));
             }
 

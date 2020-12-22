@@ -2,6 +2,7 @@ package com.academy.service;
 
 import com.academy.dao.StudentDao;
 import com.academy.model.*;
+import com.academy.util.DateTimeUtil;
 import com.academy.vo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -145,15 +146,17 @@ public class StudentService {
 
         if(!studentInfoList.isEmpty()){
             for(StudentInfo studentInfo : studentInfoList){
-                Academy0306Response academy0306Response = new Academy0306Response();
+                if( !studentInfo.isLeaveNote()){
+                    Academy0306Response academy0306Response = new Academy0306Response();
 
-                academy0306Response.setStdntId(String.valueOf(studentInfo.getStdntId()));
-                academy0306Response.setName(studentInfo.getName());
-                academy0306Response.setGrade(getGradeName(studentInfo.getGrade()));
-                academy0306Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" :
-                        studentInfo.getLastPaymentDate().toString().substring(0, 10));
+                    academy0306Response.setStdntId(String.valueOf(studentInfo.getStdntId()));
+                    academy0306Response.setName(studentInfo.getName());
+                    academy0306Response.setGrade(getGradeName(studentInfo.getGrade()));
+                    academy0306Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" :
+                            studentInfo.getLastPaymentDate().toString().substring(0, 10));
 
-                academy0306ResponseList.add(academy0306Response);
+                    academy0306ResponseList.add(academy0306Response);
+                }
             }
         }
         return academy0306ResponseList;
@@ -182,25 +185,30 @@ public class StudentService {
 
         for(StudentInfo studentInfo : studentInfoList){
 
-            Academy0601Response academy0601Response = new Academy0601Response();
+            if( !studentInfo.isLeaveNote()){
+                Academy0601Response academy0601Response = new Academy0601Response();
 
-            academy0601Response.setName(studentInfo.getName());
-            academy0601Response.setBirth(studentInfo.getBirth().toString().substring(0,10));
-            academy0601Response.setIdCard(studentInfo.getIdCard());
-            academy0601Response.setGrade(gradeMap.get(studentInfo.getGrade()));
-            academy0601Response.setParentName(studentInfo.getParentName());
-            academy0601Response.setPhone(studentInfo.getPhone());
-            academy0601Response.setLeaveNote(studentInfo.isLeaveNote() == true ? "Y" : "");
-            academy0601Response.setNewDate(studentInfo.getNewDate() == null ? "" : studentInfo.getNewDate().toString().substring(0,10));
-            academy0601Response.setLeaveDate(studentInfo.getLeaveDate() == null ? "" : studentInfo.getLeaveDate().toString().substring(0,10));
-            academy0601Response.setHandoutExemption(studentInfo.isHandoutExemption() == true ? "Y" : "");
-            academy0601Response.setEngDiscount(studentInfo.isEngDiscount() == true ? "Y" : "");
-            academy0601Response.setMathDiscount(studentInfo.isMathDiscount() == true ? "Y" : "");
-            academy0601Response.setRemark(studentInfo.getRemark());
-            academy0601Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" : studentInfo.getLastPaymentDate().toString().substring(0,10));
+                academy0601Response.setName(studentInfo.getName());
+                academy0601Response.setBirth(DateTimeUtil.convertTWDate(studentInfo.getBirth().toString().substring(0,10)
+                        ,"yyyy-MM-dd","yyy-MM-dd"));
+                academy0601Response.setIdCard(studentInfo.getIdCard());
+                academy0601Response.setGrade(gradeMap.get(studentInfo.getGrade()));
+                academy0601Response.setParentName(studentInfo.getParentName());
+                academy0601Response.setPhone(studentInfo.getPhone());
+                academy0601Response.setLeaveNote(studentInfo.isLeaveNote() == true ? "Y" : "");
+                academy0601Response.setNewDate(studentInfo.getNewDate() == null ? "" : DateTimeUtil.convertTWDate(
+                        studentInfo.getNewDate().toString().substring(0,10),"yyyy-MM-dd","yyy-MM-dd"));
+                academy0601Response.setLeaveDate(studentInfo.getLeaveDate() == null ? "" : DateTimeUtil.convertTWDate(
+                        studentInfo.getLeaveDate().toString().substring(0,10),"yyyy-MM-dd","yyy-MM-dd"));
+                academy0601Response.setHandoutExemption(studentInfo.isHandoutExemption() == true ? "Y" : "");
+                academy0601Response.setEngDiscount(studentInfo.isEngDiscount() == true ? "Y" : "");
+                academy0601Response.setMathDiscount(studentInfo.isMathDiscount() == true ? "Y" : "");
+                academy0601Response.setRemark(studentInfo.getRemark());
+                academy0601Response.setLastPaymentDate(studentInfo.getLastPaymentDate() == null ? "" : DateTimeUtil.convertTWDate(
+                        studentInfo.getLastPaymentDate().toString().substring(0,10),"yyyy-MM-dd","yyy-MM-dd"));
 
-            academy0601ResponseList.add(academy0601Response);
-
+                academy0601ResponseList.add(academy0601Response);
+            }
         }
         return academy0601ResponseList;
     }
