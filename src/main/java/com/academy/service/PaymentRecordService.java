@@ -236,8 +236,8 @@ public class PaymentRecordService {
 
         StringBuilder sql = new StringBuilder();
 
-        sql.append("SELECT main.*");
-        sql.append("  FROM stdnt_payment_record_main main");
+        sql.append("SELECT *");
+        sql.append("  FROM stdnt_payment_record_main");
         sql.append(" WHERE 1=1");
 
         String querySql = getQuerySql(sql, academy0301Request, stdntId);
@@ -262,7 +262,22 @@ public class PaymentRecordService {
 
         //年級
         if (StringUtils.isNotBlank(academy0301Request.getGrade())) {
-            query.setParameter("grade", academy0301Request.getGrade());
+
+            List<Integer> grades = new ArrayList<>();
+            int grade = Integer.parseInt(academy0301Request.getGrade());
+
+            if( grade == 10){
+                for(int i = 1; i < 7; i++){
+                    grades.add(i);
+                }
+            }else if( grade == 11){
+                for(int i = 7; i < 10; i++){
+                    grades.add(i);
+                }
+            }else{
+                grades.add(grade);
+            }
+            query.setParameter("grade", grades);
         }
 
         //學生ID
@@ -285,7 +300,7 @@ public class PaymentRecordService {
 
         //年級
         if (StringUtils.isNotBlank(academy0301Request.getGrade())) {
-            sql.append(" and GRADE = :grade");
+            sql.append(" and GRADE IN :grade");
         }
 
         //學生ID
@@ -293,7 +308,7 @@ public class PaymentRecordService {
             sql.append(" and REF_STDNT_ID = :stdntId");
         }
 
-        sql.append(" ORDER BY PAYMENT_MONTH");
+        sql.append(" ORDER BY GRADE, PAYMENT_MONTH DESC");
 
         return sql.toString();
 
