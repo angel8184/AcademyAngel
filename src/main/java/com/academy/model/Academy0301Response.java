@@ -10,6 +10,7 @@ public class Academy0301Response {
     private String grade = "";
     private String payMainId = "";
     private String paymentMonth = "";
+    private String paymentYear = "";
     private List<Academy0301Response_courseFeeList> courseFeeList = new ArrayList<>();
     private String paymentCrDate = "";
     private String payDate = "";
@@ -53,6 +54,14 @@ public class Academy0301Response {
 
     public void setPaymentMonth(String paymentMonth) {
         this.paymentMonth = paymentMonth;
+    }
+
+    public String getPaymentYear() {
+        return paymentYear;
+    }
+
+    public void setPaymentYear(String paymentYear) {
+        this.paymentYear = paymentYear;
     }
 
     public List<Academy0301Response_courseFeeList> getCourseFeeList() {

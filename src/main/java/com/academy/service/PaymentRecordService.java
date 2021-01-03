@@ -107,7 +107,7 @@ public class PaymentRecordService {
         int stdntId = Integer.parseInt(academy0304Request.getStdntId());
         int grade = Integer.parseInt(academy0304Request.getGrade());
         int paymentMonth = Integer.parseInt(academy0304Request.getPaymentMonth());
-        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int year = Integer.parseInt(academy0304Request.getPaymentYear());
 
         StdntPaymentRecordMain stdntPaymentRecordMain = new StdntPaymentRecordMain();
 
@@ -221,6 +221,7 @@ public class PaymentRecordService {
             academy0301Response.setGrade(studentService.getGradeName(studentInfo.getGrade()));
             academy0301Response.setPayMainId(String.valueOf(stdntPaymentRecordMain.getId()));
             academy0301Response.setPaymentMonth(String.valueOf(stdntPaymentRecordMain.getPaymentMonth()));
+            academy0301Response.setPaymentYear(String.valueOf(stdntPaymentRecordMain.getPaymentYear()));
             academy0301Response.setCourseFeeList(getPaymentCourseList(stdntPaymentRecordList));
             academy0301Response.setPaymentCrDate(stdntPaymentRecordMain.getCreateDate().toString().substring(0, 10));
             academy0301Response.setPayDate(stdntPaymentRecordMain.getPayDate() == null ? "" : stdntPaymentRecordMain.getPayDate().toString().substring(0, 10));

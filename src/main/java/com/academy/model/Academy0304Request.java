@@ -8,6 +8,7 @@ public class Academy0304Request {
     private String grade;
     private String stdntId;
     private String paymentMonth;
+    private String paymentYear;
     private List<Academy0304Request_courseFeeList> courseFeeList;
 
     public String getPayMainId() {
@@ -41,6 +42,10 @@ public class Academy0304Request {
     public void setPaymentMonth(String paymentMonth) {
         this.paymentMonth = paymentMonth;
     }
+
+    public String getPaymentYear() { return paymentYear; }
+
+    public void setPaymentYear(String paymentYear) { this.paymentYear = paymentYear; }
 
     public List<Academy0304Request_courseFeeList> getCourseFeeList() {
         return courseFeeList;
