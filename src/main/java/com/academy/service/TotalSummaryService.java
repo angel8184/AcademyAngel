@@ -110,7 +110,7 @@ public class TotalSummaryService {
             if( !studentInfo.isLeaveNote()){
                 studentPayRecord.add(studentInfo.getName());
                 studentPayRecord.add(gradeMap.get(studentInfo.getGrade()));
-                studentPayRecord.add(studentInfo.getBirth().toString().substring(0,10));
+                studentPayRecord.add(studentInfo.getBirth() == null ? "" : studentInfo.getBirth().toString().substring(0,10));
                 studentPayRecord.add(studentInfo.getIdCard());
                 studentPayRecord.add(studentInfo.getParentName());
                 studentPayRecord.add(studentInfo.getPhone());

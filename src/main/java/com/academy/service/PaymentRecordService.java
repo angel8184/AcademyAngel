@@ -114,13 +114,14 @@ public class PaymentRecordService {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         if(academy0304Request.getPayMainId() != ""){
-            stdntPaymentRecordMain.setId(Integer.parseInt(academy0304Request.getPayMainId()));
+            stdntPaymentRecordMain = paymentRecordMainDao.findById(Integer.parseInt(academy0304Request.getPayMainId()));
+        }else{
+            stdntPaymentRecordMain.setCreateDate(timestamp);
         }
         stdntPaymentRecordMain.setRefStdntId(stdntId);
         stdntPaymentRecordMain.setGrade(grade);
         stdntPaymentRecordMain.setPaymentYear(year);
         stdntPaymentRecordMain.setPaymentMonth(paymentMonth);
-        stdntPaymentRecordMain.setCreateDate(timestamp);
 
         int mainId = paymentRecordMainDao.save(stdntPaymentRecordMain).getId();
 

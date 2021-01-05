@@ -188,7 +188,7 @@ public class StudentService {
             Academy0601Response academy0601Response = new Academy0601Response();
 
             academy0601Response.setName(studentInfo.getName());
-            academy0601Response.setBirth(DateTimeUtil.convertTWDate(studentInfo.getBirth().toString().substring(0,10)
+            academy0601Response.setBirth(studentInfo.getBirth() == null ? "" : DateTimeUtil.convertTWDate(studentInfo.getBirth().toString().substring(0,10)
                     ,"yyyy-MM-dd","yyy-MM-dd"));
             academy0601Response.setIdCard(studentInfo.getIdCard());
             academy0601Response.setGrade(gradeMap.get(studentInfo.getGrade()));

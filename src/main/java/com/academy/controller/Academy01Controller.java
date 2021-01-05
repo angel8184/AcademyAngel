@@ -51,7 +51,7 @@ public class Academy01Controller {
 
                 academy0101Response.setStdntId(String.valueOf(studentInfo.getStdntId()));
                 academy0101Response.setName(studentInfo.getName());
-                academy0101Response.setBirth(studentInfo.getBirth().toString().substring(0, 10));
+                academy0101Response.setBirth(studentInfo.getBirth() == null ? "" : studentInfo.getBirth().toString().substring(0, 10));
                 academy0101Response.setIdCard(studentInfo.getIdCard());
                 academy0101Response.setParentName(studentInfo.getParentName());
                 academy0101Response.setPhone(studentInfo.getPhone());
