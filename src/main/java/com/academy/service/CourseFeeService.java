@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Transactional
+@Transactional(rollbackFor={RuntimeException.class, Exception.class})
 public class CourseFeeService {
 
     @Autowired

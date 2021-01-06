@@ -22,7 +22,7 @@ import java.util.Calendar;
 import java.util.List;
 
 @Service
-@Transactional
+@Transactional(rollbackFor={RuntimeException.class, Exception.class})
 public class PaymentRecordService {
 
     @Autowired

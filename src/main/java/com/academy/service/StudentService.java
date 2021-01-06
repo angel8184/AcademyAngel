@@ -1,8 +1,10 @@
 package com.academy.service;
 
+import com.academy.dao.SignUpRecordDao;
 import com.academy.dao.StudentDao;
 import com.academy.model.*;
 import com.academy.util.DateTimeUtil;
+import com.academy.vo.StdntSignUpRecord;
 import com.academy.vo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +18,13 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Transactional
+@Transactional(rollbackFor={RuntimeException.class, Exception.class, NumberFormatException.class})
 public class StudentService {
 
     @Autowired
     StudentDao studentInfoDao;
+    @Autowired
+    SignUpRecordDao signUpRecordDao;
 
     // Declaring the static map
     private static Map<Integer, String> gradeMap;
@@ -41,7 +45,7 @@ public class StudentService {
     }
 
 
-    public int insertStudentInfo(Academy0102Request academy0102Request) {
+    public void insertStudentInfo(Academy0102Request academy0102Request) {
 
         StudentInfo studentInfo = new StudentInfo();
 
@@ -64,8 +68,40 @@ public class StudentService {
 
         int stdntId = studentInfoDao.save(studentInfo).getStdntId();
 
+        //先刪掉所有STDNTID 原先報名的課程
+        List<StdntSignUpRecord> stdntSignUpRecordList = signUpRecordDao.findByRefStdntId(stdntId);
 
-        return stdntId;
+        if(!stdntSignUpRecordList.isEmpty()){
+            signUpRecordDao.delete(stdntSignUpRecordList);
+        }
+
+        for(Academy0102Request_course course : academy0102Request.getCourseFeeList()){
+            StdntSignUpRecord stdntSignUpRecord = new StdntSignUpRecord();
+
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+            course.setSignUpId(course.getSignUpId().equals( "") ? null : course.getSignUpId());
+
+            if( course.getSignUpId() != null){
+                stdntSignUpRecord.setId(Integer.parseInt(course.getSignUpId()));
+            }
+
+            stdntSignUpRecord.setRefStdntId(stdntId);
+
+            stdntSignUpRecord.setRefCourseFeeId(Integer.parseInt(course.getCourseFeeId()));
+
+            if(!course.getSignUpStartMonth().isEmpty()){
+                stdntSignUpRecord.setSignUpStartMonth(Integer.parseInt(course.getSignUpStartMonth()));
+            }
+
+            if(!course.getSignUpEndMonth().isEmpty()){
+                stdntSignUpRecord.setSignUpEndMonth(Integer.parseInt(course.getSignUpEndMonth()));
+            }
+
+            stdntSignUpRecord.setCreateDate(timestamp);
+
+            signUpRecordDao.save(stdntSignUpRecord);
+        }
     }
 
     public void updateLastPayDate(StudentInfo studentInfo){

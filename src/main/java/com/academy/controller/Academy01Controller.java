@@ -77,11 +77,9 @@ public class Academy01Controller {
     @PostMapping("/02")
     public String insertStudentData(@RequestBody Academy0102Request academy0102Request){
         try{
-            logger.debug("insertStudentData");
+            logger.debug("insertStudentData academy0102Request.grade：{}", academy0102Request.getGrade());
 
-            int stdntId = studentService.insertStudentInfo(academy0102Request);
-
-            signUpRecordService.insertSignUpRecord(stdntId, academy0102Request.getCourseFeeList());
+            studentService.insertStudentInfo(academy0102Request);
 
         }catch (Exception e){
             logger.debug("insertStudentData Error", e);
@@ -121,8 +119,10 @@ public class Academy01Controller {
                 Academy0101Response_courseFeeList courseFee = new Academy0101Response_courseFeeList();
                 courseFee.setSignUpId(String.valueOf(stdntSignUpRecord.getId()));
                 courseFee.setCourseFeeId(String.valueOf(stdntSignUpRecord.getRefCourseFeeId()));
-                courseFee.setSignUpStartMonth(String.valueOf(stdntSignUpRecord.getSignUpStartMonth()));
-                courseFee.setSignUpEndMonth(String.valueOf(stdntSignUpRecord.getSignUpEndMonth()));
+                courseFee.setSignUpStartMonth(stdntSignUpRecord.getSignUpStartMonth() == 0 ? "" : String.valueOf(
+                        stdntSignUpRecord.getSignUpStartMonth()));
+                courseFee.setSignUpEndMonth(stdntSignUpRecord.getSignUpEndMonth() == 0 ? "" : String.valueOf(
+                        stdntSignUpRecord.getSignUpEndMonth()));
 
                 courseFeeLists.add(courseFee);
             }
