@@ -6,16 +6,22 @@ import com.academy.model.*;
 import com.academy.util.DateTimeUtil;
 import com.academy.vo.StdntSignUpRecord;
 import com.academy.vo.StudentInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 @Service
 @Transactional(rollbackFor={RuntimeException.class, Exception.class, NumberFormatException.class})
@@ -25,6 +31,9 @@ public class StudentService {
     StudentDao studentInfoDao;
     @Autowired
     SignUpRecordDao signUpRecordDao;
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     // Declaring the static map
     private static Map<Integer, String> gradeMap;
@@ -90,11 +99,15 @@ public class StudentService {
 
             stdntSignUpRecord.setRefCourseFeeId(Integer.parseInt(course.getCourseFeeId()));
 
-            if(!course.getSignUpStartMonth().isEmpty()){
+            if(course.getSignUpStartMonth() == null || course.getSignUpStartMonth().equals("")){
+                stdntSignUpRecord.setSignUpStartMonth(0);
+            }else{
                 stdntSignUpRecord.setSignUpStartMonth(Integer.parseInt(course.getSignUpStartMonth()));
             }
 
-            if(!course.getSignUpEndMonth().isEmpty()){
+            if(course.getSignUpEndMonth() == null || course.getSignUpStartMonth().equals("")){
+                stdntSignUpRecord.setSignUpEndMonth(0);
+            }else{
                 stdntSignUpRecord.setSignUpEndMonth(Integer.parseInt(course.getSignUpEndMonth()));
             }
 
@@ -113,21 +126,52 @@ public class StudentService {
         studentInfoDao.save(studentInfo);
     }
 
-    public List<StudentInfo> queryStudentData(String grade, String name){
+    public List<StudentInfo> queryStudentData(String grade, String name)throws ParseException{
 
-        List<StudentInfo> studentInfoList;
+        StringBuilder sql = new StringBuilder();
 
-        if(grade == "" && name == ""){
-            studentInfoList = studentInfoDao.findAllByOrderByGradeDesc();
-        }else if(grade != "" && name == ""){
-            studentInfoList = studentInfoDao.findByGrade(Integer.parseInt(grade));
-        }else if(grade == "" && name != ""){
-            studentInfoList = studentInfoDao.findByName(name);
-        }else{
-            studentInfoList = studentInfoDao.findByGradeAndName(Integer.parseInt(grade), name);
+        sql.append("SELECT *");
+        sql.append("  FROM student_info");
+        sql.append(" WHERE 1=1");
+
+        String querySql = getQuerySql(sql, grade, name);
+        Query query = entityManager.createNativeQuery(querySql.toString(),StudentInfo.class);
+        setQueryParameter(query, grade, name);
+
+
+        return query.getResultList();
+    }
+
+    private String getQuerySql(StringBuilder sql, String grade, String name) throws ParseException {
+
+        //年級
+        if (StringUtils.isNotBlank(grade)) {
+            sql.append(" and GRADE = :grade");
         }
 
-        return studentInfoList;
+        //姓名
+        if (StringUtils.isNotBlank(name)) {
+            sql.append(" and NAME LIKE CONCAT('%', :name, '%') ");
+        }
+
+        sql.append(" ORDER BY GRADE DESC");
+
+        return sql.toString();
+
+    }
+
+    private void setQueryParameter(Query query, String grade, String name) throws ParseException {
+
+        //年級
+        if (StringUtils.isNotBlank(grade)) {
+            query.setParameter("grade", grade);
+        }
+
+        //姓名
+        if (StringUtils.isNotBlank(name)) {
+            query.setParameter("name", name);
+        }
+
     }
 
     public StudentInfo findbyStdntId(int stdntId){
@@ -175,7 +219,7 @@ public class StudentService {
     }
 
 
-    public List<Academy0306Response> queryPaymentForPrintReceipt (Academy0306Request academy0306Request){
+    public List<Academy0306Response> queryPaymentForPrintReceipt (Academy0306Request academy0306Request)throws ParseException{
 
         List<StudentInfo> studentInfoList = queryStudentData(academy0306Request.getGrade(), academy0306Request.getName());
         List<Academy0306Response> academy0306ResponseList = new ArrayList<>();

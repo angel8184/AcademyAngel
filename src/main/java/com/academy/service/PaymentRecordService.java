@@ -171,20 +171,22 @@ public class PaymentRecordService {
         List<Academy0301Response> academy0301ResponseList = new ArrayList<>();
 
         //query StudentInfo first if academy0301Request.getName() is not null.
-        if(academy0301Request.getName() != ""){
-
+        if(StringUtils.isNotBlank(academy0301Request.getName())){
             //use Name to find Student data.
-            StudentInfo studentInfo = studentInfoDao.findByName(academy0301Request.getName()).get(0);
+            List<StudentInfo> studentInfoList = studentService.queryStudentData("", academy0301Request.getName());
 
-            //use stdntId and paymonth to find payment_Main.
-            List<StdntPaymentRecordMain> stdntPaymentRecordMainList = this.findStdntPaymentRecordMainList(academy0301Request,
+            if( !studentInfoList.isEmpty()){
+                //use stdntId and paymonth to find payment_Main.
+                for(StudentInfo studentInfo : studentInfoList){
+                    List<StdntPaymentRecordMain> stdntPaymentRecordMainList = this.findStdntPaymentRecordMainList(academy0301Request,
                     String.valueOf(studentInfo.getStdntId()));
 
-            if( !stdntPaymentRecordMainList.isEmpty()){
-                for(StdntPaymentRecordMain stdntPaymentRecordMain : stdntPaymentRecordMainList){
-                    Academy0301Response academy0301Response = get0301ResponseDetail(stdntPaymentRecordMain, studentInfo);
-
-                    academy0301ResponseList.add(academy0301Response);
+                    if( !stdntPaymentRecordMainList.isEmpty()){
+                        for(StdntPaymentRecordMain stdntPaymentRecordMain : stdntPaymentRecordMainList){
+                            Academy0301Response academy0301Response = get0301ResponseDetail(stdntPaymentRecordMain, studentInfo);
+                            academy0301ResponseList.add(academy0301Response);
+                        }
+                    }
                 }
             }
 
